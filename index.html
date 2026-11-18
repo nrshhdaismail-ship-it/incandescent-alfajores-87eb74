@@ -1,0 +1,3398 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KITABQUEST – Pengembaraan 4 Kitab Allah (Pendidikan Islam Tahun 3)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Fredoka:wght@400;500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Palet Warna Kawaii Pastel Aesthetic */
+      --kawaii-pink: #F8C8DC;
+      --kawaii-pink-soft: #FCE4EC;
+      --kawaii-pink-deep: #E07A9F;
+      --kawaii-mint: #C8E6C9;
+      --kawaii-mint-deep: #3B8C5E;
+      --kawaii-blue: #D6EAF8;
+      --kawaii-blue-deep: #3B7CA8;
+      --kawaii-cream: #FFF8E7;
+      --kawaii-yellow: #FFF0B3;
+      --kawaii-yellow-deep: #9A7410;
+      --kawaii-brown: #594A4E;
+      --kawaii-brown-soft: #756368;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      background-color: var(--kawaii-cream);
+      color: var(--kawaii-brown);
+      overflow-x: hidden;
+      /* Corak Geometri Islam Halus + Awan Pastel Lembut */
+      background-image:
+        radial-gradient(circle at 12% 14%, rgba(248, 200, 220, 0.55) 0%, transparent 36%),
+        radial-gradient(circle at 88% 16%, rgba(214, 234, 248, 0.55) 0%, transparent 38%),
+        radial-gradient(circle at 84% 86%, rgba(200, 230, 201, 0.55) 0%, transparent 38%),
+        radial-gradient(circle at 15% 88%, rgba(255, 240, 179, 0.55) 0%, transparent 36%),
+        radial-gradient(rgba(224, 122, 159, 0.14) 1.5px, transparent 1.5px);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 28px 28px;
+      background-attachment: fixed;
+    }
+
+    h1, h2, h3, h4, .font-display {
+      font-family: 'Fredoka', sans-serif;
+      color: var(--kawaii-brown);
+      letter-spacing: -0.01em;
+    }
+
+    .font-arabic {
+      font-family: 'Amiri', serif;
+      line-height: 2.2;
+      color: var(--kawaii-brown);
+    }
+
+    /* Kawaii Pastel Rounded Cards */
+    .card-3d {
+      background: #FFFFFF;
+      border-radius: 2rem;
+      border: 3px solid #F8C8DC;
+      box-shadow:
+        0 8px 0 rgba(248, 200, 220, 0.65),
+        0 16px 28px -10px rgba(89, 74, 78, 0.12),
+        inset 0 4px 10px rgba(255, 248, 231, 0.9);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+    }
+
+    .card-3d-hover:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        0 12px 0 rgba(224, 122, 159, 0.45),
+        0 20px 32px -10px rgba(89, 74, 78, 0.15);
+    }
+
+    /* Kawaii Pastel Cute Buttons */
+    .btn-3d {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      border-radius: 1.5rem;
+      transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .btn-3d:active {
+      transform: translateY(3px) !important;
+      box-shadow: 0 2px 0 rgba(89, 74, 78, 0.2) !important;
+    }
+
+    .btn-pink {
+      background: linear-gradient(180deg, #F8C8DC 0%, #F2A6C4 100%);
+      color: var(--kawaii-brown);
+      border: 2px solid #E07A9F;
+      box-shadow: 0 5px 0 #E07A9F, 0 10px 18px rgba(224, 122, 159, 0.22);
+    }
+    .btn-pink:hover { transform: translateY(-2px); background: #F8C8DC; }
+
+    .btn-purple, .btn-blue {
+      background: linear-gradient(180deg, #D6EAF8 0%, #B8DCF4 100%);
+      color: var(--kawaii-brown);
+      border: 2px solid #7FB3D5;
+      box-shadow: 0 5px 0 #7FB3D5, 0 10px 18px rgba(127, 179, 213, 0.22);
+    }
+    .btn-purple:hover, .btn-blue:hover { transform: translateY(-2px); }
+
+    .btn-mint {
+      background: linear-gradient(180deg, #C8E6C9 0%, #A5D6A7 100%);
+      color: var(--kawaii-brown);
+      border: 2px solid #66BB6A;
+      box-shadow: 0 5px 0 #66BB6A, 0 10px 18px rgba(102, 187, 106, 0.22);
+    }
+    .btn-mint:hover { transform: translateY(-2px); }
+
+    .btn-peach {
+      background: linear-gradient(180deg, #FFF0B3 0%, #FFE082 100%);
+      color: var(--kawaii-brown);
+      border: 2px solid #D4AC0D;
+      box-shadow: 0 5px 0 #D4AC0D, 0 10px 18px rgba(212, 172, 13, 0.2);
+    }
+    .btn-peach:hover { transform: translateY(-2px); }
+
+    .btn-soft {
+      background: var(--kawaii-cream);
+      color: var(--kawaii-brown);
+      border: 2px solid #F8C8DC;
+      box-shadow: 0 4px 0 #F8C8DC;
+    }
+    .btn-soft:hover { background: var(--kawaii-pink-soft); transform: translateY(-2px); }
+
+    /* Kawaii Pastel Section Surfaces */
+    .clay-hero-bg {
+      background: linear-gradient(135deg, #FCE4EC 0%, #FFF8E7 50%, #D6EAF8 100%);
+    }
+    .clay-banner-bg {
+      background: linear-gradient(135deg, #FCE4EC 0%, #FFF8E7 55%, #C8E6C9 100%);
+    }
+    .clay-tint-pink {
+      background-color: #FCE4EC;
+      border-color: #F8C8DC;
+    }
+    .clay-tint-mint {
+      background-color: #C8E6C9;
+      border-color: #81C784;
+    }
+    .clay-tint-blue {
+      background-color: #D6EAF8;
+      border-color: #85C1E9;
+    }
+    .clay-tint-cream {
+      background-color: #FFF8E7;
+      border-color: #F8C8DC;
+    }
+    .clay-tint-yellow {
+      background-color: #FFF0B3;
+      border-color: #F7DC6F;
+    }
+    .text-plum { color: var(--kawaii-brown); }
+    .text-plum-body { color: var(--kawaii-brown); }
+
+    /* Floating & Book Open Animations */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-7px) rotate(1deg); }
+    }
+    @keyframes floatReverse {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(-1deg); }
+    }
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.96) translateY(10px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.55; transform: scale(0.92); }
+      50% { opacity: 1; transform: scale(1.12); }
+    }
+
+    .animate-float-1 { animation: floatSlow 4.2s ease-in-out infinite; }
+    .animate-float-2 { animation: floatReverse 4.8s ease-in-out infinite; }
+    .animate-float-3 { animation: floatSlow 5.1s ease-in-out infinite 0.5s; }
+    .animate-float-4 { animation: floatReverse 4.5s ease-in-out infinite 0.9s; }
+    .animate-pop { animation: popIn 0.38s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+    .animate-twinkle { animation: twinkle 2.4s ease-in-out infinite; }
+
+    /* 3D Interactive Book Flip / Open */
+    .book-3d-stage {
+      perspective: 1400px;
+    }
+    .book-3d-card {
+      transform-style: preserve-3d;
+      transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .book-3d-card.is-open {
+      transform: rotateY(180deg);
+    }
+    .book-face {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .book-back {
+      transform: rotateY(180deg);
+    }
+
+    /* Confetti Particle */
+    .star-burst {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      font-size: 1.5rem;
+      animation: burstFly 1.1s ease-out forwards;
+    }
+    @keyframes burstFly {
+      0% { opacity: 1; transform: translate(0, 0) scale(0.6) rotate(0deg); }
+      100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(1.35) rotate(240deg); }
+    }
+
+    /* Custom Scrollbar for Nav */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Print Styles for RPH & Certificate */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 12mm;
+      }
+      body {
+        background: #FFFFFF !important;
+        background-image: none !important;
+        color: #000000 !important;
+      }
+      .no-print { display: none !important; }
+      #app-content {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .card-3d {
+        box-shadow: none !important;
+        border: 1.5px solid #94A3B8 !important;
+        border-radius: 10px !important;
+        page-break-inside: avoid;
+        break-inside: avoid;
+        margin-bottom: 12px !important;
+      }
+      .print-only-clean {
+        box-shadow: none !important;
+        border: none !important;
+        margin: 0 !important;
+        width: 100% !important;
+      }
+      body.printing-certificate-mode #app-content > div > section:not(#certificate-print-section) {
+        display: none !important;
+      }
+      body.printing-certificate-mode #certificate-print-section {
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+      }
+      body.printing-certificate-mode #certificate-card-frame {
+        border: 6px double #C2527B !important;
+        border-radius: 20px !important;
+        padding: 36px 28px !important;
+        background: #FFF8E7 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        min-height: 170mm;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+    }
+
+    /* Kawaii Clay 3D Styles Khusus Bahagian Metadata / Profil Pembangun */
+    .meta-clay-card {
+      background: #FFF4E6;
+      border-radius: 2rem;
+      border: 3px solid #E9A3BC;
+      box-shadow:
+        0 10px 0 rgba(233, 163, 188, 0.55),
+        0 18px 32px -12px rgba(80, 59, 96, 0.16),
+        inset 0 5px 12px rgba(255, 255, 255, 0.92);
+      color: #503B60;
+    }
+
+    .meta-clay-subcard {
+      background: #FFFFFF;
+      border-radius: 1.5rem;
+      border: 2.5px solid #A8D5BA;
+      box-shadow:
+        0 6px 0 rgba(168, 213, 186, 0.55),
+        0 10px 20px -8px rgba(80, 59, 96, 0.1),
+        inset 0 3px 8px rgba(255, 244, 230, 0.85);
+      color: #503B60;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .meta-clay-subcard:hover {
+      transform: translateY(-3px);
+    }
+
+    .meta-clay-pink-box {
+      background: linear-gradient(145deg, #FFF4E6 0%, #F9DCE6 100%);
+      border-radius: 1.75rem;
+      border: 2.5px solid #E9A3BC;
+      box-shadow:
+        0 7px 0 rgba(233, 163, 188, 0.5),
+        inset 0 4px 10px rgba(255, 255, 255, 0.85);
+    }
+
+    .meta-clay-mint-box {
+      background: linear-gradient(145deg, #FFF4E6 0%, #E3F3E9 100%);
+      border-radius: 1.75rem;
+      border: 2.5px solid #A8D5BA;
+      box-shadow:
+        0 7px 0 rgba(168, 213, 186, 0.55),
+        inset 0 4px 10px rgba(255, 255, 255, 0.85);
+    }
+
+    .meta-avatar-ring {
+      border-radius: 9999px;
+      background: linear-gradient(145deg, #E9A3BC, #A8D5BA);
+      padding: 8px;
+      box-shadow:
+        0 10px 22px rgba(80, 59, 96, 0.18),
+        inset 0 4px 8px rgba(255, 255, 255, 0.85);
+    }
+
+    .meta-icon-clay {
+      width: 2.85rem;
+      height: 2.85rem;
+      border-radius: 1rem;
+      background: linear-gradient(145deg, #FFF4E6, #F6D5E1);
+      border: 2px solid #E9A3BC;
+      box-shadow: 0 4px 0 rgba(233, 163, 188, 0.6), inset 0 2px 5px #FFFFFF;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- TOP HEADER & KAWAII PASTEL NAVIGATION BAR -->
+  <header class="no-print sticky top-0 z-40 bg-[#FFF8E7]/95 backdrop-blur-md border-b-3 border-[#F8C8DC] shadow-xs">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 py-3">
+      <div class="flex items-center justify-between gap-3">
+        <!-- Brand Identity -->
+        <button onclick="navigateTo('home')" class="flex items-center gap-3 text-left group focus:outline-none">
+          <div class="w-11 h-11 rounded-2xl bg-[#F8C8DC] border-2 border-[#E07A9F] flex items-center justify-center text-[#594A4E] text-2xl shadow-xs group-hover:scale-105 transition-transform">
+            🌸
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-display font-bold text-lg sm:text-xl tracking-tight text-[#594A4E]">KITAB<span class="text-[#C2527B]">QUEST</span> 🌙</span>
+              <span class="hidden sm:inline-block text-xs font-extrabold px-2.5 py-0.5 rounded-full bg-[#C8E6C9] text-[#594A4E] border border-[#81C784]">Tahun 3</span>
+            </div>
+            <p class="text-xs font-bold text-[#756368]">Pendidikan Islam • Bidang Akidah (35 Minit)</p>
+          </div>
+        </button>
+
+        <!-- Cute Kawaii Learning Progress Pill -->
+        <div class="flex items-center gap-2 sm:gap-2.5">
+          <!-- Penukar Mod Pelajar / Mod Guru -->
+          <div class="inline-flex items-center p-1 rounded-2xl bg-[#FFF0B3] border-2 border-[#F7DC6F]" role="group" aria-label="Pilih Mod Paparan">
+            <button
+              id="btn-mode-student"
+              onclick="setAppUserMode(false)"
+              class="px-2.5 sm:px-3 py-1 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1 bg-white text-[#594A4E] shadow-xs"
+            >
+              <span>🎒</span>
+              <span class="hidden md:inline">Mod Pelajar</span>
+            </button>
+            <button
+              id="btn-mode-teacher"
+              onclick="setAppUserMode(true)"
+              class="px-2.5 sm:px-3 py-1 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1 text-[#594A4E]/75 hover:text-[#594A4E]"
+            >
+              <span>👩‍🏫</span>
+              <span class="hidden md:inline">Mod Guru</span>
+            </button>
+          </div>
+
+          <button onclick="toggleVoicePanel()" title="Tetapan Suara AI Bahasa Melayu Standard" class="inline-flex items-center gap-1.5 text-xs font-extrabold px-3 py-2 rounded-2xl bg-[#D6EAF8] hover:bg-[#FCE4EC] text-[#594A4E] border-2 border-[#85C1E9] transition-colors">
+            <span>🎙️</span>
+            <span class="hidden lg:inline">Suara AI BM</span>
+          </button>
+
+          <div class="bg-[#FCE4EC] border-2 border-[#F8C8DC] rounded-2xl px-3 py-1.5 flex items-center gap-2">
+            <span class="text-base sm:text-lg">🌟</span>
+            <div>
+              <div class="flex items-center justify-between gap-2 text-xs font-extrabold text-[#594A4E]">
+                <span class="hidden sm:inline">Kemajuan</span>
+                <span id="progress-percent-text" class="text-[#C2527B]">0%</span>
+              </div>
+              <div class="w-16 sm:w-28 h-2.5 bg-white rounded-full overflow-hidden mt-0.5 border border-[#F8C8DC]">
+                <div id="global-progress-bar" class="h-full bg-gradient-to-r from-[#F8C8DC] via-[#FFF0B3] to-[#C8E6C9] rounded-full transition-all duration-500" style="width: 9%"></div>
+              </div>
+            </div>
+          </div>
+
+          <button onclick="resetAllProgress()" title="Set Semula Kemajuan" class="hidden xl:inline-flex items-center gap-1 text-xs font-extrabold px-3 py-2 rounded-xl bg-[#FFF0B3] hover:bg-[#FCE4EC] text-[#594A4E] border border-[#F7DC6F] transition-colors">
+            🔄 Reset
+          </button>
+        </div>
+      </div>
+
+      <!-- BANNER PETUNJUK MOD GURU AKTIF -->
+      <div id="teacher-mode-banner" class="hidden mt-2.5 px-4 py-2 rounded-2xl bg-[#C8E6C9]/80 border-2 border-[#66BB6A] flex flex-wrap items-center justify-between gap-2 text-xs font-extrabold text-[#594A4E]">
+        <div class="flex items-center gap-2">
+          <span>👩‍🏫</span>
+          <span>MOD GURU AKTIF: Paparan RPH penuh, ruangan muat naik dokumen RPH, refleksi PdPC & ringkasan pentaksiran formatif murid dipaparkan.</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="navigateTo('rph')" class="px-3 py-1 rounded-xl bg-white border border-[#66BB6A] hover:bg-[#FFF8E7]">🗓️ Buka RPH</button>
+          <button onclick="setAppUserMode(false)" class="px-3 py-1 rounded-xl bg-[#FCE4EC] border border-[#E07A9F]">🎒 Tukar ke Mod Pelajar</button>
+        </div>
+      </div>
+
+      <!-- PANEL KAWALAN & UJIAN SUARA AI BAHASA MELAYU STANDARD -->
+      <div id="voice-control-drawer" class="hidden mt-3 p-4 rounded-2xl clay-banner-bg border-2 border-[#F8C8DC] shadow-inner">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2.5">
+            <span class="text-xl">🗣️</span>
+            <div>
+              <h2 class="font-display font-bold text-sm text-[#594A4E]">Kawalan Suara AI Bahasa Melayu Standard (ms-MY)</h2>
+              <p id="voice-engine-status" class="text-xs font-bold text-[#756368]">Mengesan enjin suara Bahasa Melayu pelayar...</p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <select id="voice-select-dropdown" onchange="selectPreferredVoice(this.value)" aria-label="Pilih Enjin Suara AI Bahasa Melayu" class="px-3 py-1.5 rounded-xl border-2 border-[#F8C8DC] bg-white font-bold text-[#594A4E] max-w-[230px]">
+              <option value="">Auto: Bahasa Melayu Standard (ms-MY)</option>
+            </select>
+
+            <label class="flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-xl border border-[#F8C8DC] font-bold text-[#594A4E]">
+              <span>Kelajuan:</span>
+              <select id="voice-rate-select" onchange="updateVoiceRate(this.value)" class="font-extrabold text-[#C2527B] bg-transparent focus:outline-none">
+                <option value="0.82">Perlahan (0.82x)</option>
+                <option value="0.92" selected>Mesra Tahun 3 (0.92x)</option>
+                <option value="1.0">Biasa (1.0x)</option>
+              </select>
+            </label>
+
+            <button onclick="testStandardMalayVoice()" class="btn-3d btn-blue px-3.5 py-1.5 text-xs">
+              🔊 Uji Suara BM
+            </button>
+            <button onclick="stopSpeech()" class="btn-3d btn-soft px-3 py-1.5 text-xs">
+              ⏹️ Henti
+            </button>
+            <button onclick="toggleVoicePanel()" class="px-2.5 py-1.5 rounded-xl bg-white hover:bg-[#FCE4EC] font-extrabold text-[#594A4E] border border-[#F8C8DC]">
+              ✕
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- NAVIGATION BAR (SEMUA MENU ASAL + LANGKAH PEMBELAJARAN) -->
+      <nav aria-label="Navigasi Utama Portal" class="mt-2.5 pt-2 border-t border-[#F8C8DC] flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
+        <div id="main-nav-list" class="flex items-center gap-1.5 min-w-max"></div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN INTERACTIVE STAGE -->
+  <main id="app-content" class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-6 sm:py-8">
+    <!-- Dynamic Section Content Injected Here -->
+  </main>
+
+  <!-- BOTTOM STEPPER NAVIGATION -->
+  <footer class="no-print bg-[#FFF8E7]/95 border-t-3 border-[#F8C8DC] py-4 px-4 mt-8">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      <button id="btn-prev-page" onclick="goPrevPage()" class="btn-3d btn-soft px-4 py-2.5 text-sm">
+        ⬅️ Kembali
+      </button>
+
+      <div class="flex items-center gap-2">
+        <button onclick="navigateTo('home')" class="btn-3d bg-[#FCE4EC] hover:bg-[#F8C8DC] text-[#594A4E] border-2 border-[#F8C8DC] px-4 py-2.5 text-sm">
+          🏡 Laman Utama
+        </button>
+        <span id="footer-step-indicator" class="hidden sm:inline-block text-xs font-extrabold text-[#594A4E] bg-[#FFF0B3] px-3.5 py-2 rounded-xl border border-[#F7DC6F]">
+          Bahagian 1 daripada 11
+        </span>
+      </div>
+
+      <button id="btn-next-page" onclick="goNextPage()" class="btn-3d btn-pink px-5 py-2.5 text-sm">
+        Seterusnya ➡️
+      </button>
+    </div>
+  </footer>
+
+  <!-- TOAST / INLINE NOTIFICATION BANNER -->
+  <div id="toast-banner" class="fixed bottom-20 right-4 z-50 hidden max-w-sm bg-[#594A4E] text-[#FFF8E7] px-4 py-3 rounded-2xl shadow-xl border-2 border-[#F8C8DC] text-sm font-bold flex items-center gap-2.5">
+    <span id="toast-icon">🌸</span>
+    <span id="toast-msg">Mesej</span>
+  </div>
+
+  <script>
+    /*************************************************************************
+     * KONFIGURASI STATIK PROFIL PEMBANGUN (UBAH DI SINI SEBELUM DEPLOYMENT)
+     * Nota: Nilai di bawah akan dipaparkan secara kekal kepada semua pengunjung
+     * selepas website diterbitkan (hosting statik / GitHub Pages / Netlify).
+     *************************************************************************/
+    const DEVELOPER_PROFILE_CONFIG = {
+      photoUrl: 'https://i.postimg.cc/zDgFp9Lm/photo-6282907387748356691-w.jpg',
+      fullName: 'NURSHUHADA BINTI ISMAIL',
+      program: 'PROGRAM IJAZAH SARJANA MUDA PERGURUAN',
+      institution: 'INSTITUT PENDIDIKAN GURU KAMPUS TUN ABDUL RAZAK',
+      role: 'Pereka dan Pembangun Bahan Pembelajaran Digital',
+      version: 'Versi 1.0 (OPD Tahun 3)',
+      updatedDate: 'November 2026',
+      feedbackQrUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdyXpw0zOxUh7-kPFyv1PloFAVTbX8SWHTMU3wAYjwVPDnf3w/viewform?usp=header'
+    };
+
+    /*************************************************************************
+     * SUARA AI BAHASA MELAYU MALAYSIA (ms-MY) & NOTIFIKASI TOAST
+     *************************************************************************/
+    let availableVoices = [];
+    let currentTtsAudio = null;
+    const ttsAudioCache = new Map();
+
+    function base64ToArrayBuffer(base64) {
+      const binaryString = atob(base64);
+      const len = binaryString.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      return bytes.buffer;
+    }
+
+    function pcmToWav(pcm16, sampleRate) {
+      const numChannels = 1;
+      const bytesPerSample = 2;
+      const blockAlign = numChannels * bytesPerSample;
+      const byteRate = sampleRate * blockAlign;
+      const dataSize = pcm16.length * bytesPerSample;
+      const buffer = new ArrayBuffer(44 + dataSize);
+      const view = new DataView(buffer);
+
+      const writeStr = (offset, str) => {
+        for (let i = 0; i < str.length; i++) {
+          view.setUint8(offset + i, str.charCodeAt(i));
+        }
+      };
+
+      writeStr(0, 'RIFF');
+      view.setUint32(4, 36 + dataSize, true);
+      writeStr(8, 'WAVE');
+      writeStr(12, 'fmt ');
+      view.setUint32(16, 16, true);
+      view.setUint16(20, 1, true);
+      view.setUint16(22, numChannels, true);
+      view.setUint32(24, sampleRate, true);
+      view.setUint32(28, byteRate, true);
+      view.setUint16(32, blockAlign, true);
+      view.setUint16(34, 16, true);
+      writeStr(36, 'data');
+      view.setUint32(40, dataSize, true);
+
+      let offset = 44;
+      for (let i = 0; i < pcm16.length; i++, offset += 2) {
+        view.setInt16(offset, pcm16[i], true);
+      }
+      return new Blob([buffer], { type: 'audio/wav' });
+    }
+
+    function isStrictlyMalaysianVoice(v) {
+      if (!v) return false;
+      const lang = (v.lang || '').toLowerCase().replace('_', '-');
+      const name = (v.name || '').toLowerCase();
+      // Sekat 100% suara Inggeris (en-*) dan Indonesia (id-*)
+      if (lang.startsWith('en') || lang.startsWith('id')) return false;
+      if (name.includes('english') || name.includes('indonesia') || name.includes('uk ') || name.includes('us ')) return false;
+      return lang === 'ms-my' || lang.startsWith('ms') || name.includes('malay') || name.includes('melayu') || name.includes('yasmin') || name.includes('osman');
+    }
+
+    function findBestMalaysianVoice(voicesList) {
+      const list = voicesList || window.speechSynthesis.getVoices() || [];
+      const exactMsMy = list.filter(isStrictlyMalaysianVoice);
+      if (exactMsMy.length > 0) {
+        return exactMsMy.find(v => (v.name || '').toLowerCase().includes('yasmin'))
+            || exactMsMy.find(v => (v.name || '').toLowerCase().includes('osman'))
+            || exactMsMy.find(v => (v.lang || '').toLowerCase().replace('_', '-') === 'ms-my')
+            || exactMsMy[0];
+      }
+      return null;
+    }
+
+    function loadStandardMalayVoices() {
+      const dropdown = document.getElementById('voice-select-dropdown');
+      const statusEl = document.getElementById('voice-engine-status');
+      if (statusEl) {
+        statusEl.textContent = 'Aktif: Suara AI Bahasa Melayu Malaysia (Loghat Standard Malaysia)';
+      }
+      if (!('speechSynthesis' in window) || !dropdown) return;
+
+      const populate = () => {
+        availableVoices = window.speechSynthesis.getVoices() || [];
+        // Papar HANYA suara Melayu Malaysia (tiada suara English atau Indonesia)
+        const malayOnlyVoices = availableVoices.filter(isStrictlyMalaysianVoice);
+
+        let opts = `<option value="">Auto: Suara AI Melayu Malaysia (ms-MY)</option>`;
+        malayOnlyVoices.forEach(v => {
+          const selected = state.voiceSettings.voiceURI === v.voiceURI ? 'selected' : '';
+          opts += `<option value="${v.voiceURI}" ${selected}>${v.name} (${v.lang})</option>`;
+        });
+        dropdown.innerHTML = opts;
+      };
+
+      populate();
+      window.speechSynthesis.onvoiceschanged = populate;
+    }
+
+    function toggleVoicePanel() {
+      const drawer = document.getElementById('voice-control-drawer');
+      if (drawer) drawer.classList.toggle('hidden');
+    }
+
+    function selectPreferredVoice(uri) {
+      state.voiceSettings.voiceURI = uri;
+      saveState();
+      showToast('🎙️', 'Pilihan suara Bahasa Melayu Malaysia telah dikemas kini.');
+    }
+
+    function updateVoiceRate(rateVal) {
+      state.voiceSettings.rate = parseFloat(rateVal) || 0.92;
+      if (currentTtsAudio) {
+        currentTtsAudio.playbackRate = state.voiceSettings.rate;
+      }
+      saveState();
+    }
+
+    function normalizeStandardMalayText(text) {
+      return String(text || '')
+        .replace(/\bSWT\b/g, 'Subhanahu Wa Taala')
+        .replace(/\bSAW\b/g, 'Sallallahu Alaihi Wasallam')
+        .replace(/\bAS\b/g, 'Alaihissalam')
+        .replace(/\bPdPC\b/g, 'Pengajaran dan Pemudahcaraan')
+        .replace(/\bDSKP\b/g, 'Dokumen Standard Kurikulum dan Pentaksiran')
+        .replace(/\bRPH\b/g, 'Rancangan Pengajaran Harian')
+        .replace(/\bKitabQuest\b/gi, 'Kitab Kues')
+        .replace(/\bAI\b/g, 'A.I.')
+        .replace(/\bAl-Quran\b/gi, 'Al-Quran')
+        .replace(/\bwuduk\b/gi, 'wuduk');
+    }
+
+    async function fetchMalaysianAiAudioUrl(cleanText) {
+      if (ttsAudioCache.has(cleanText)) {
+        return ttsAudioCache.get(cleanText);
+      }
+
+      const apiKey = "";
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+      const promptText =
+        `Bacakan teks berikut dalam Bahasa Melayu Malaysia (loghat standard Malaysia, BUKAN loghat Indonesia dan BUKAN loghat Inggeris) dengan nada guru perempuan Malaysia yang lembut, jelas, mesra dan ceria untuk murid sekolah rendah Tahun 3:\n\n"${cleanText}"`;
+
+      const payload = {
+        contents: [{ parts: [{ text: promptText }] }],
+        generationConfig: {
+          responseModalities: ["AUDIO"],
+          speechConfig: {
+            voiceConfig: {
+              prebuiltVoiceConfig: { voiceName: "Aoede" }
+            }
+          }
+        },
+        model: "gemini-2.5-flash-preview-tts"
+      };
+
+      const delays = [800, 1600];
+      for (let attempt = 0; attempt <= delays.length; attempt++) {
+        try {
+          const resp = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (!resp.ok) throw new Error('HTTP ' + resp.status);
+          const result = await resp.json();
+          const part = result?.candidates?.[0]?.content?.parts?.[0];
+          const audioData = part?.inlineData?.data;
+          const mimeType = part?.inlineData?.mimeType || 'audio/L16;rate=24000';
+          if (audioData) {
+            const rateMatch = mimeType.match(/rate=(\d+)/);
+            const sampleRate = rateMatch ? parseInt(rateMatch[1], 10) : 24000;
+            const pcmBuffer = base64ToArrayBuffer(audioData);
+            const pcm16 = new Int16Array(pcmBuffer);
+            const wavBlob = pcmToWav(pcm16, sampleRate);
+            const audioUrl = URL.createObjectURL(wavBlob);
+            ttsAudioCache.set(cleanText, audioUrl);
+            return audioUrl;
+          }
+          throw new Error('Tiada data audio');
+        } catch (err) {
+          if (attempt < delays.length) {
+            await new Promise(r => setTimeout(r, delays[attempt]));
+          } else {
+            return null;
+          }
+        }
+      }
+      return null;
+    }
+
+    function speakWithStrictMalaysianBrowserVoice(cleanText, onEndCallback = null) {
+      if (!('speechSynthesis' in window)) {
+        if (onEndCallback) onEndCallback();
+        return;
+      }
+      const voices = window.speechSynthesis.getVoices() || [];
+      let chosen = null;
+      if (state.voiceSettings.voiceURI) {
+        const manualVoice = voices.find(v => v.voiceURI === state.voiceSettings.voiceURI);
+        if (isStrictlyMalaysianVoice(manualVoice)) {
+          chosen = manualVoice;
+        }
+      }
+      if (!chosen) {
+        chosen = findBestMalaysianVoice(voices);
+      }
+
+      // Jangan sekali-kali menggunakan suara English atau Indonesia
+      if (!chosen) {
+        showToast('🎙️', 'Suara Melayu Malaysia sedang dimuatkan...');
+        if (onEndCallback) onEndCallback();
+        return;
+      }
+
+      const utter = new SpeechSynthesisUtterance(cleanText);
+      utter.voice = chosen;
+      utter.lang = 'ms-MY';
+      utter.rate = state.voiceSettings.rate || 0.92;
+      utter.pitch = 1.04;
+      utter.onend = () => { if (onEndCallback) onEndCallback(); };
+      utter.onerror = () => { if (onEndCallback) onEndCallback(); };
+      window.speechSynthesis.speak(utter);
+    }
+
+    async function speakMalay(text, onEndCallback = null) {
+      stopSpeech();
+      const cleanText = normalizeStandardMalayText(text);
+      if (!cleanText) {
+        if (onEndCallback) onEndCallback();
+        return;
+      }
+
+      // Jika pengguna memilih suara ms-MY pelayar secara manual, terus gunakan suara ms-MY tersebut
+      if (state.voiceSettings.voiceURI) {
+        const voices = window.speechSynthesis ? (window.speechSynthesis.getVoices() || []) : [];
+        const manualVoice = voices.find(v => v.voiceURI === state.voiceSettings.voiceURI);
+        if (isStrictlyMalaysianVoice(manualVoice)) {
+          speakWithStrictMalaysianBrowserVoice(cleanText, onEndCallback);
+          return;
+        }
+      }
+
+      // 1. Utama: Jana Suara AI Bahasa Melayu Malaysia semula jadi (bukan English & bukan Indonesia)
+      const aiAudioUrl = await fetchMalaysianAiAudioUrl(cleanText);
+      if (aiAudioUrl) {
+        const audio = new Audio(aiAudioUrl);
+        audio.playbackRate = state.voiceSettings.rate || 0.92;
+        currentTtsAudio = audio;
+        audio.onended = () => {
+          if (currentTtsAudio === audio) currentTtsAudio = null;
+          if (onEndCallback) onEndCallback();
+        };
+        audio.onerror = () => {
+          if (currentTtsAudio === audio) currentTtsAudio = null;
+          speakWithStrictMalaysianBrowserVoice(cleanText, onEndCallback);
+        };
+        try {
+          await audio.play();
+          return;
+        } catch (playErr) {
+          currentTtsAudio = null;
+        }
+      }
+
+      // 2. Sandaran ketat: Hanya suara pelayar ms-MY Malaysia sahaja
+      speakWithStrictMalaysianBrowserVoice(cleanText, onEndCallback);
+    }
+
+    function stopSpeech() {
+      if (currentTtsAudio) {
+        try {
+          currentTtsAudio.pause();
+          currentTtsAudio.currentTime = 0;
+        } catch (e) {}
+        currentTtsAudio = null;
+      }
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    }
+
+    function testStandardMalayVoice() {
+      speakMalay('Assalamualaikum murid-murid Tahun 3! Mari kita mengembara mengenali empat buah kitab Allah Subhanahu Wa Taala dalam Bahasa Melayu Malaysia.');
+      showToast('🔊', 'Memainkan Suara Bahasa Melayu Malaysia...');
+    }
+
+    const NAV_ITEMS = [
+      { id: 'home', short: 'Utama', icon: '🏡' },
+      { id: 'dskp', short: 'DSKP', icon: '🎯' },
+      { id: 'rph', short: 'RPH (35m)', icon: '🗓️' },
+      { id: 'chatbot', short: 'Chatbot AI', icon: '🤖' },
+      { id: 'set-induksi', short: 'Set Induksi', icon: '🌈' },
+      { id: 'langkah-1', short: 'Langkah 1', icon: '💡' },
+      { id: 'langkah-2', short: 'Langkah 2', icon: '📚' },
+      { id: 'langkah-3', short: 'Langkah 3', icon: '🧩' },
+      { id: 'penilaian', short: 'Penilaian', icon: '🏆' },
+      { id: 'permainan', short: 'Permainan', icon: '🧸' },
+      { id: 'penutup', short: 'Penutup', icon: '🎓' },
+      { id: 'metadata', short: 'Metadata', icon: '🪪' }
+    ];
+
+    const FOUR_KITABS = [
+      {
+        id: 'taurat',
+        name: 'Kitab Taurat',
+        arabic: 'التَّوْرَاةُ',
+        prophet: 'Nabi Musa AS',
+        language: 'Bahasa Ibrani',
+        nation: 'Kaum Bani Israel',
+        colorBg: 'from-[#FCE4EC] to-[#FFF8E7]',
+        borderCol: 'border-[#F8C8DC]',
+        badgeBg: 'bg-[#F8C8DC]',
+        accentText: 'text-[#C2527B]',
+        summary: 'Kitab Taurat diturunkan oleh Allah SWT kepada Nabi Musa AS di Bukit Tursina sebagai panduan syariat dan akidah bagi kaum Bani Israel.',
+        fact: 'Mengandungi hukum-hakam syariat dan berita gembira tentang kedatangan nabi akhir zaman.',
+        audioText: 'Kitab Taurat diturunkan oleh Allah Subhanahu Wa Taala kepada Nabi Musa Alaihissalam dalam bahasa Ibrani sebagai panduan hidup kaum Bani Israel.'
+      },
+      {
+        id: 'zabur',
+        name: 'Kitab Zabur',
+        arabic: 'الزَّبُورُ',
+        prophet: 'Nabi Daud AS',
+        language: 'Bahasa Qibti / Suryani',
+        nation: 'Kaum Bani Israel',
+        colorBg: 'from-[#D6EAF8] to-[#FFF8E7]',
+        borderCol: 'border-[#85C1E9]',
+        badgeBg: 'bg-[#D6EAF8]',
+        accentText: 'text-[#3B7CA8]',
+        summary: 'Kitab Zabur diturunkan oleh Allah SWT kepada Nabi Daud AS sebagai petunjuk dan pedoman rohani untuk kaum Bani Israel.',
+        fact: 'Mengandungi zikir, doa, nasihat dan puji-pujian kepada Allah SWT yang dialunkan dengan merdu.',
+        audioText: 'Kitab Zabur diturunkan oleh Allah Subhanahu Wa Taala kepada Nabi Daud Alaihissalam untuk kaum Bani Israel dan mengandungi zikir, doa serta puji-pujian kepada Allah.'
+      },
+      {
+        id: 'injil',
+        name: 'Kitab Injil',
+        arabic: 'الْإِنْجِيلُ',
+        prophet: 'Nabi Isa AS',
+        language: 'Bahasa Suryani',
+        nation: 'Kaum Bani Israel',
+        colorBg: 'from-[#FFF0B3] to-[#FFF8E7]',
+        borderCol: 'border-[#F7DC6F]',
+        badgeBg: 'bg-[#FFF0B3]',
+        accentText: 'text-[#9A7410]',
+        summary: 'Kitab Injil diturunkan oleh Allah SWT kepada Nabi Isa AS untuk membetulkan akidah kaum Bani Israel dan menyeru mereka menyembah Allah Yang Esa.',
+        fact: 'Mengajak manusia berakhlak mulia, berkasih sayang dan membenarkan kedatangan Nabi Muhammad SAW.',
+        audioText: 'Kitab Injil diturunkan oleh Allah Subhanahu Wa Taala kepada Nabi Isa Alaihissalam dalam bahasa Suryani untuk membimbing kaum Bani Israel.'
+      },
+      {
+        id: 'quran',
+        name: 'Kitab Al-Quran',
+        arabic: 'الْقُرْآنُ الْكَرِيمُ',
+        prophet: 'Nabi Muhammad SAW',
+        language: 'Bahasa Arab',
+        nation: 'Seluruh Umat Manusia',
+        colorBg: 'from-[#C8E6C9] to-[#FFF8E7]',
+        borderCol: 'border-[#81C784]',
+        badgeBg: 'bg-[#C8E6C9]',
+        accentText: 'text-[#3B8C5E]',
+        summary: 'Kitab Al-Quran ialah kalam Allah yang terakhir diturunkan kepada Nabi Muhammad SAW melalui Malaikat Jibril AS sebagai panduan lengkap hingga hari kiamat.',
+        fact: 'Keaslian Al-Quran sentiasa terpelihara oleh Allah SWT dan membacanya dikira sebagai ibadah.',
+        audioText: 'Kitab Al-Quran diturunkan oleh Allah Subhanahu Wa Taala kepada Nabi Muhammad Sallallahu Alaihi Wasallam dalam bahasa Arab sebagai panduan lengkap seluruh umat manusia hingga hari kiamat.'
+      }
+    ];
+
+    const DEFAULT_STATE = {
+      currentPage: 'home',
+      visitedPages: ['home'],
+      dskpChecklist: [false, false, false, false],
+      induksiCheckpointsDone: [false, false],
+      induksiVideoCompleted: false,
+      langkah1Understood: false,
+      langkah1QuizAnswer: null,
+      openedBooks: [],
+      matchingScore: 0,
+      matchingCompleted: false,
+      quizScore: null,
+      quizAnswers: {},
+      arcadeBadges: { match: false, quiz: false, mystery: false },
+      reflectionQ1: '',
+      reflectionQ2: '',
+      studentName: '',
+      teacherMode: false,
+      uploadedRph: {
+        fileName: '',
+        fileType: '',
+        fileSize: '',
+        dataUrl: '',
+        uploadedAt: ''
+      },
+      voiceSettings: {
+        voiceURI: '',
+        rate: 0.92
+      },
+      teacherReflection: {
+        achieved: '',
+        total: '',
+        guidance: '',
+        strength: '',
+        improve: '',
+        followup: ''
+      },
+      metadata: {
+        photoUrl: DEVELOPER_PROFILE_CONFIG.photoUrl,
+        fullName: DEVELOPER_PROFILE_CONFIG.fullName,
+        program: DEVELOPER_PROFILE_CONFIG.program,
+        institution: DEVELOPER_PROFILE_CONFIG.institution,
+        role: DEVELOPER_PROFILE_CONFIG.role,
+        version: DEVELOPER_PROFILE_CONFIG.version,
+        updatedDate: DEVELOPER_PROFILE_CONFIG.updatedDate,
+        qrUrl: '',
+        qrImageData: ''
+      }
+    };
+
+    let state = loadState();
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem('kitabquest_state_v1');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          return {
+            ...DEFAULT_STATE,
+            ...parsed,
+            uploadedRph: { ...DEFAULT_STATE.uploadedRph, ...(parsed.uploadedRph || {}) },
+            voiceSettings: { ...DEFAULT_STATE.voiceSettings, ...(parsed.voiceSettings || {}) },
+            teacherReflection: { ...DEFAULT_STATE.teacherReflection, ...(parsed.teacherReflection || {}) },
+            metadata: { ...DEFAULT_STATE.metadata, ...(parsed.metadata || {}) },
+            arcadeBadges: { ...DEFAULT_STATE.arcadeBadges, ...(parsed.arcadeBadges || {}) }
+          };
+        }
+      } catch (e) {
+        console.warn('Gagal memuatkan storan setempat:', e);
+      }
+      return JSON.parse(JSON.stringify(DEFAULT_STATE));
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem('kitabquest_state_v1', JSON.stringify(state));
+      } catch (e) {
+        console.warn('Gagal menyimpan storan setempat:', e);
+      }
+      updateProgressUI();
+    }
+
+    function resetAllProgress() {
+      stopSpeech();
+      stopGameshowTimer();
+      stopInduksi3DAnimation();
+      state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+      saveState();
+      renderNavigation();
+      renderPage('home');
+      showToast('🔄', 'Semua kemajuan pembelajaran telah ditetapkan semula.');
+    }
+
+    let toastTimeout = null;
+    function showToast(icon, msg) {
+      const banner = document.getElementById('toast-banner');
+      const iconEl = document.getElementById('toast-icon');
+      const msgEl = document.getElementById('toast-msg');
+      if (!banner || !iconEl || !msgEl) return;
+      iconEl.textContent = icon;
+      msgEl.textContent = msg;
+      banner.classList.remove('hidden');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        banner.classList.add('hidden');
+      }, 3400);
+    }
+
+    function triggerStarBurst(x = window.innerWidth / 2, y = window.innerHeight / 2) {
+      const icons = ['⭐', '🌸', '✨', '🌙', '💖'];
+      for (let i = 0; i < 12; i++) {
+        const el = document.createElement('span');
+        el.className = 'star-burst';
+        el.textContent = icons[i % icons.length];
+        const angle = (Math.PI * 2 * i) / 12;
+        const dist = 70 + Math.random() * 80;
+        el.style.left = `${x}px`;
+        el.style.top = `${y}px`;
+        el.style.setProperty('--tx', `${Math.cos(angle) * dist}px`);
+        el.style.setProperty('--ty', `${Math.sin(angle) * dist - 30}px`);
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 1150);
+      }
+    }
+
+    function playCuteChime(type = 'success') {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        const now = ctx.currentTime;
+        if (type === 'success') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(523.25, now);
+          osc.frequency.setValueAtTime(659.25, now + 0.1);
+          osc.frequency.setValueAtTime(783.99, now + 0.2);
+          gain.gain.setValueAtTime(0.14, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+          osc.start(now);
+          osc.stop(now + 0.45);
+        } else {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(300, now);
+          osc.frequency.setValueAtTime(240, now + 0.14);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+          osc.start(now);
+          osc.stop(now + 0.35);
+        }
+      } catch (e) {}
+    }
+
+    /*************************************************************************
+     * NAVIGASI & KEMAJUAN PEMBELAJARAN
+     *************************************************************************/
+    function updateModeSwitcherUI() {
+      const btnStudent = document.getElementById('btn-mode-student');
+      const btnTeacher = document.getElementById('btn-mode-teacher');
+      const banner = document.getElementById('teacher-mode-banner');
+      if (!btnStudent || !btnTeacher) return;
+
+      if (state.teacherMode) {
+        btnTeacher.className = 'px-2.5 sm:px-3 py-1 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1 bg-[#C8E6C9] border border-[#66BB6A] text-[#594A4E] shadow-xs';
+        btnStudent.className = 'px-2.5 sm:px-3 py-1 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1 text-[#594A4E]/75 hover:text-[#594A4E]';
+        if (banner) banner.classList.remove('hidden');
+      } else {
+        btnStudent.className = 'px-2.5 sm:px-3 py-1 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1 bg-white border border-[#E07A9F] text-[#594A4E] shadow-xs';
+        btnTeacher.className = 'px-2.5 sm:px-3 py-1 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1 text-[#594A4E]/75 hover:text-[#594A4E]';
+        if (banner) banner.classList.add('hidden');
+      }
+    }
+
+    function setAppUserMode(isTeacher) {
+      state.teacherMode = Boolean(isTeacher);
+      saveState();
+      updateModeSwitcherUI();
+      renderNavigation();
+      renderPage(state.currentPage || 'home');
+      showToast(
+        state.teacherMode ? '👩‍🏫' : '🎒',
+        state.teacherMode
+          ? 'Mod Guru diaktifkan: Paparan RPH, refleksi & analisis pentaksiran dipaparkan.'
+          : 'Mod Pelajar diaktifkan: Paparan pembelajaran interaktif mesra murid Tahun 3.'
+      );
+    }
+
+    function renderNavigation() {
+      updateModeSwitcherUI();
+      const listEl = document.getElementById('main-nav-list');
+      if (!listEl) return;
+
+      const visibleNavItems = state.teacherMode
+        ? NAV_ITEMS
+        : NAV_ITEMS.filter(item => item.id !== 'rph');
+
+      listEl.innerHTML = visibleNavItems.map(item => {
+        const isActive = state.currentPage === item.id;
+        const isVisited = state.visitedPages.includes(item.id);
+        return `
+          <button
+            onclick="navigateTo('${item.id}')"
+            class="px-3 py-1.5 rounded-2xl text-xs font-extrabold transition-all flex items-center gap-1.5 border-2 ${
+              isActive
+                ? 'bg-[#F8C8DC] border-[#E07A9F] text-[#594A4E] shadow-xs scale-[1.02]'
+                : isVisited
+                  ? 'bg-[#C8E6C9]/60 border-[#81C784] text-[#594A4E] hover:bg-[#FCE4EC]'
+                  : 'bg-white border-[#F8C8DC] text-[#594A4E] hover:bg-[#FCE4EC]'
+            }"
+          >
+            <span>${item.icon}</span>
+            <span>${item.short}</span>
+            ${isVisited && !isActive ? '<span class="text-[10px]">✓</span>' : ''}
+          </button>
+        `;
+      }).join('');
+
+      updateProgressUI();
+    }
+
+    function updateProgressUI() {
+      const visibleNavItems = state.teacherMode
+        ? NAV_ITEMS
+        : NAV_ITEMS.filter(item => item.id !== 'rph');
+      const total = visibleNavItems.length;
+      const visibleIds = new Set(visibleNavItems.map(n => n.id));
+      const visitedCount = Math.min(total, [...new Set(state.visitedPages)].filter(id => visibleIds.has(id)).length);
+      const pct = Math.round((visitedCount / total) * 100);
+
+      const pctEl = document.getElementById('progress-percent-text');
+      const barEl = document.getElementById('global-progress-bar');
+      if (pctEl) pctEl.textContent = `${pct}%`;
+      if (barEl) barEl.style.width = `${pct}%`;
+
+      const idx = visibleNavItems.findIndex(n => n.id === state.currentPage);
+      const stepEl = document.getElementById('footer-step-indicator');
+      if (stepEl && idx >= 0) {
+        stepEl.textContent = `${state.teacherMode ? '👩‍🏫 Mod Guru' : '🎒 Mod Pelajar'} • Bahagian ${idx + 1} daripada ${total} (${visibleNavItems[idx].short})`;
+      }
+
+      const prevBtn = document.getElementById('btn-prev-page');
+      const nextBtn = document.getElementById('btn-next-page');
+      if (prevBtn) prevBtn.disabled = idx <= 0;
+      if (nextBtn) nextBtn.disabled = idx >= total - 1;
+    }
+
+    function navigateTo(pageId) {
+      stopSpeech();
+      if (pageId !== 'set-induksi') stopInduksi3DAnimation();
+      if (pageId !== 'penilaian') stopGameshowTimer();
+
+      state.currentPage = pageId;
+      if (!state.visitedPages.includes(pageId)) {
+        state.visitedPages.push(pageId);
+      }
+      saveState();
+      renderNavigation();
+      renderPage(pageId);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goPrevPage() {
+      const visibleNavItems = state.teacherMode
+        ? NAV_ITEMS
+        : NAV_ITEMS.filter(item => item.id !== 'rph');
+      const idx = visibleNavItems.findIndex(n => n.id === state.currentPage);
+      if (idx > 0) navigateTo(visibleNavItems[idx - 1].id);
+    }
+
+    function goNextPage() {
+      const visibleNavItems = state.teacherMode
+        ? NAV_ITEMS
+        : NAV_ITEMS.filter(item => item.id !== 'rph');
+      const idx = visibleNavItems.findIndex(n => n.id === state.currentPage);
+      if (idx >= 0 && idx < visibleNavItems.length - 1) {
+        navigateTo(visibleNavItems[idx + 1].id);
+      }
+    }
+
+    function renderPage(pageId) {
+      const container = document.getElementById('app-content');
+      if (!container) return;
+
+      switch (pageId) {
+        case 'home':
+          container.innerHTML = renderHomePage();
+          break;
+        case 'dskp':
+          container.innerHTML = renderDskpPage();
+          break;
+        case 'rph':
+          container.innerHTML = renderRphPage();
+          break;
+        case 'chatbot':
+          container.innerHTML = renderChatbotPage();
+          scrollChatToBottom();
+          break;
+        case 'set-induksi':
+          container.innerHTML = renderSetInduksiPage();
+          break;
+        case 'langkah-1':
+          container.innerHTML = renderLangkah1Page();
+          break;
+        case 'langkah-2':
+          container.innerHTML = renderLangkah2Page();
+          break;
+        case 'langkah-3':
+          container.innerHTML = renderLangkah3Page();
+          break;
+        case 'penilaian':
+          container.innerHTML = renderPenilaianPage();
+          break;
+        case 'permainan':
+          container.innerHTML = renderPermainanPage();
+          break;
+        case 'penutup':
+          container.innerHTML = renderPenutupPage();
+          break;
+        case 'metadata':
+          container.innerHTML = renderMetadataPage();
+          setTimeout(() => renderFeedbackQrCanvas(), 40);
+          break;
+        default:
+          container.innerHTML = renderHomePage();
+      }
+    }
+
+    /*************************************************************************
+     * 1. LAMAN UTAMA (HOME)
+     *************************************************************************/
+    function renderHomePage() {
+      return `
+      <div class="space-y-7 animate-pop">
+        <section class="card-3d clay-hero-bg p-6 sm:p-10 relative overflow-hidden">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-7 items-center">
+            <div class="lg:col-span-7 space-y-4">
+              <div class="inline-flex flex-wrap items-center gap-2">
+                <span class="px-3.5 py-1 rounded-full bg-white border-2 border-[#F8C8DC] text-xs font-extrabold">🕌 Pendidikan Islam Tahun 3 • Bidang Akidah</span>
+                <span class="px-3.5 py-1 rounded-full bg-[#C8E6C9] border border-[#81C784] text-xs font-extrabold">⏱️ Tempoh PdPC: 35 Minit</span>
+              </div>
+
+              <h1 class="text-3xl sm:text-5xl font-display font-extrabold leading-tight">
+                Pengembaraan 4 Kitab Allah <span class="text-[#C2527B]">KITABQUEST</span> 🌙
+              </h1>
+
+              <p class="text-base sm:text-lg font-bold text-[#756368] leading-relaxed">
+                Mari mengembara mengenali <strong>Kitab Taurat, Zabur, Injil dan Al-Quran</strong> bersama nabi-nabi penerimanya melalui aktiviti interaktif, kuiz gamifikasi dan buku digital 3D!
+              </p>
+
+              <div class="flex flex-wrap items-center gap-3 pt-1">
+                <button onclick="triggerStarBurst(); navigateTo('set-induksi')" class="btn-3d btn-pink px-6 py-3.5 text-base">
+                  🚀 Mula Pengembaraan
+                </button>
+                <button onclick="speakMalay('Assalamualaikum murid-murid Tahun 3! Selamat datang ke portal pembelajaran digital Kitab Kues: Beriman kepada Kitab Allah. Mari kita mula mengembara!')" class="btn-3d btn-blue px-5 py-3.5 text-sm sm:text-base">
+                  🔊 Dengar Pengenalan
+                </button>
+                <button onclick="navigateTo('dskp')" class="btn-3d btn-soft px-4 py-3.5 text-sm">
+                  🎯 Lihat DSKP
+                </button>
+              </div>
+            </div>
+
+            <!-- KARTU RINGKASAN 4 KITAB ALLAH -->
+            <div class="lg:col-span-5 grid grid-cols-2 gap-3.5">
+              ${FOUR_KITABS.map((k, idx) => `
+                <button onclick="navigateTo('langkah-2')" class="card-3d card-3d-hover p-4 bg-gradient-to-br ${k.colorBg} border-2 ${k.borderCol} text-left space-y-1.5 animate-float-${(idx % 4) + 1}">
+                  <div class="flex items-center justify-between">
+                    <span class="text-2xl">📖</span>
+                    <span class="text-[11px] font-extrabold px-2 py-0.5 rounded-full bg-white/90">${k.language.replace('Bahasa ', '')}</span>
+                  </div>
+                  <div class="font-display font-bold text-base sm:text-lg">${k.name}</div>
+                  <div class="font-arabic text-lg font-bold ${k.accentText}">${k.arabic}</div>
+                  <div class="text-xs font-extrabold text-[#756368]">🕌 ${k.prophet}</div>
+                </button>
+              `).join('')}
+            </div>
+          </div>
+        </section>
+
+        <!-- PETA LALUAN PEMBELAJARAN (35 MINIT) -->
+        <section class="card-3d p-6 sm:p-8 space-y-5">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <span class="px-3 py-1 rounded-full bg-[#FFF0B3] border border-[#F7DC6F] text-xs font-extrabold">🗺️ Peta Pengembaraan PdPC (35 Minit)</span>
+              <h2 class="text-xl sm:text-2xl font-display font-extrabold mt-1">Aliran Aktiviti Pembelajaran Digital</h2>
+            </div>
+            <span class="text-xs font-extrabold text-[#756368]">Klik mana-mana stesen untuk terus mula</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <button onclick="navigateTo('set-induksi')" class="p-4 rounded-3xl clay-tint-pink border-2 text-left hover:scale-[1.02] transition-transform space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="text-2xl">🌈</span>
+                <span class="text-xs font-extrabold px-2.5 py-0.5 rounded-full bg-white">5 Minit</span>
+              </div>
+              <div class="font-display font-bold text-base">1. Set Induksi</div>
+              <p class="text-xs font-bold text-[#756368]">Tayangan video & 2 soalan pencetus minda.</p>
+            </button>
+
+            <button onclick="navigateTo('langkah-1')" class="p-4 rounded-3xl clay-tint-blue border-2 text-left hover:scale-[1.02] transition-transform space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="text-2xl">💡</span>
+                <span class="text-xs font-extrabold px-2.5 py-0.5 rounded-full bg-white">7 Minit</span>
+              </div>
+              <div class="font-display font-bold text-base">2. Langkah 1: Konsep</div>
+              <p class="text-xs font-bold text-[#756368]">Pengertian beriman kepada kitab & dalil naqli.</p>
+            </button>
+
+            <button onclick="navigateTo('langkah-2')" class="p-4 rounded-3xl clay-tint-yellow border-2 text-left hover:scale-[1.02] transition-transform space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="text-2xl">📚</span>
+                <span class="text-xs font-extrabold px-2.5 py-0.5 rounded-full bg-white">7 Minit</span>
+              </div>
+              <div class="font-display font-bold text-base">3. Langkah 2: 4 Kitab</div>
+              <p class="text-xs font-bold text-[#756368]">Buka 4 buku digital & bincang bersama rakan.</p>
+            </button>
+
+            <button onclick="navigateTo('langkah-3')" class="p-4 rounded-3xl clay-tint-mint border-2 text-left hover:scale-[1.02] transition-transform space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="text-2xl">🧩</span>
+                <span class="text-xs font-extrabold px-2.5 py-0.5 rounded-full bg-white">6 + 5 + 5m</span>
+              </div>
+              <div class="font-display font-bold text-base">4. Padanan, Kuiz & Sijil</div>
+              <p class="text-xs font-bold text-[#756368]">Aktiviti padanan, kuiz gamifikasi & sijil digital.</p>
+            </button>
+          </div>
+        </section>
+      </div>
+      `;
+    }
+
+    /*************************************************************************
+     * 2. DSKP & OBJEKTIF PEMBELAJARAN
+     *************************************************************************/
+    const DSKP_OBJECTIVES = [
+      'Menyatakan pengertian beriman kepada kitab-kitab Allah dengan tepat.',
+      'Membaca dan memahami maksud dalil naqli kewajipan beriman kepada kitab Allah (Surah al-Baqarah: 285).',
+      'Menyenaraikan 4 buah kitab Allah (Taurat, Zabur, Injil, Al-Quran) serta nabi penerimanya dengan betul.',
+      'Mengamalkan adab dan penghayatan terhadap Al-Quran dalam kehidupan seharian.'
+    ];
+
+    function renderDskpPage() {
+      const doneCount = state.dskpChecklist.filter(Boolean).length;
+      return `
+      <div class="space-y-7 animate-pop">
+        <section class="card-3d clay-hero-bg p-6 sm:p-8 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <span class="px-3.5 py-1 rounded-full bg-white border-2 border-[#F8C8DC] text-xs font-extrabold">🎯 Dokumen Standard Kurikulum & Pentaksiran (KSSR Semakan)</span>
+            <h1 class="text-2xl sm:text-4xl font-display font-extrabold mt-1">DSKP Pendidikan Islam Tahun 3</h1>
+            <p class="text-sm font-bold text-[#756368]">Bidang Akidah • Standard Kandungan 3.2: Merumus Konsep Beriman kepada Kitab-Kitab Allah</p>
+          </div>
+          <span class="px-4 py-2 rounded-2xl bg-[#C8E6C9] border-2 border-[#81C784] text-xs font-extrabold">
+            ✅ Sasaran Dicapai: ${doneCount} / ${DSKP_OBJECTIVES.length}
+          </span>
+        </section>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <section class="card-3d p-6 space-y-4">
+            <h2 class="text-xl font-display font-extrabold">📋 Standard Kandungan & Pembelajaran</h2>
+            <div class="p-4 rounded-2xl clay-tint-pink border-2 space-y-1">
+              <div class="text-xs font-extrabold uppercase text-[#C2527B]">Standard Kandungan (SK 3.2)</div>
+              <p class="font-bold text-sm sm:text-base">Merumus konsep beriman kepada kitab-kitab Allah serta mengamalkannya secara beradab dan istiqamah.</p>
+            </div>
+            <ul class="space-y-2.5 text-sm font-bold">
+              <li class="p-3 rounded-2xl bg-[#FFF8E7] border border-[#F8C8DC]"><strong>3.2.1</strong> Menyatakan pengertian beriman kepada kitab-kitab Allah.</li>
+              <li class="p-3 rounded-2xl bg-[#FFF8E7] border border-[#F8C8DC]"><strong>3.2.2</strong> Membaca dalil naqli dan ertinya tentang kewajipan beriman kepada kitab Allah.</li>
+              <li class="p-3 rounded-2xl bg-[#FFF8E7] border border-[#F8C8DC]"><strong>3.2.3</strong> Menjelaskan nama-nama kitab Allah dan rasul yang menerimanya.</li>
+              <li class="p-3 rounded-2xl bg-[#FFF8E7] border border-[#F8C8DC]"><strong>3.2.4</strong> Menghuraikan kepentingan beriman kepada kitab-kitab Allah.</li>
+              <li class="p-3 rounded-2xl bg-[#FFF8E7] border border-[#F8C8DC]"><strong>3.2.5</strong> Membuktikan keimanan kepada kitab Allah dalam kehidupan harian.</li>
+            </ul>
+          </section>
+
+          <section class="card-3d p-6 space-y-4">
+            <h2 class="text-xl font-display font-extrabold">🌟 Senarai Semak Objektif & Kriteria Kejayaan</h2>
+            <p class="text-xs sm:text-sm font-bold text-[#756368]">Tandakan setiap objektif pembelajaran di bawah apabila kamu berjaya menguasainya:</p>
+            <div class="space-y-3">
+              ${DSKP_OBJECTIVES.map((obj, idx) => {
+                const checked = Boolean(state.dskpChecklist[idx]);
+                return `
+                <button onclick="toggleDskpChecklist(${idx})" class="w-full p-4 rounded-2xl border-2 text-left flex items-start gap-3 transition-all ${
+                  checked ? 'bg-[#C8E6C9]/80 border-[#66BB6A]' : 'bg-white border-[#F8C8DC] hover:bg-[#FFF8E7]'
+                }">
+                  <span class="text-xl leading-none mt-0.5">${checked ? '✅' : '⬜'}</span>
+                  <span class="text-sm font-bold">${obj}</span>
+                </button>
+                `;
+              }).join('')}
+            </div>
+
+            <div class="p-4 rounded-2xl clay-tint-blue border-2 text-xs sm:text-sm font-bold space-y-1">
+              <div class="font-display font-bold text-base">🏆 Kriteria Kejayaan Murid:</div>
+              <p>Murid berjaya sekiranya dapat memadankan sekurang-kurangnya <strong>4 daripada 4</strong> kitab Allah dengan nabi penerimanya serta menjawab sekurang-kurangnya <strong>6 daripada 8</strong> soalan kuiz dengan betul.</p>
+            </div>
+          </section>
+        </div>
+      </div>
+      `;
+    }
+
+    function toggleDskpChecklist(idx) {
+      state.dskpChecklist[idx] = !state.dskpChecklist[idx];
+      saveState();
+      if (state.dskpChecklist[idx]) playCuteChime('success');
+      renderPage('dskp');
+    }
+
+    /*************************************************************************
+     * 3. RPH (35 MINIT) – KHUSUS MOD GURU
+     *************************************************************************/
+    function renderRphPage() {
+      const rph = state.uploadedRph || {};
+      const tref = state.teacherReflection || {};
+
+      return `
+      <div class="space-y-7 animate-pop">
+        <section class="card-3d clay-hero-bg p-6 sm:p-8 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <span class="px-3.5 py-1 rounded-full bg-[#C8E6C9] border border-[#66BB6A] text-xs font-extrabold">👩‍🏫 Mod Guru • Rancangan Pengajaran Harian (35 Minit)</span>
+            <h1 class="text-2xl sm:text-4xl font-display font-extrabold mt-1">RPH Pendidikan Islam Tahun 3</h1>
+            <p class="text-sm font-bold text-[#756368]">Tajuk: Beriman kepada Kitab Allah • Model ASSURE & Pedagogi 3E / 3R / 6C</p>
+          </div>
+          <button onclick="window.print()" class="btn-3d btn-pink px-5 py-2.5 text-sm no-print">
+            🖨️ Cetak RPH
+          </button>
+        </section>
+
+        <!-- JADUAL PERINCIAN RPH 35 MINIT -->
+        <section class="card-3d p-6 sm:p-8 space-y-4">
+          <h2 class="text-xl font-display font-extrabold">🗓️ Langkah Pengajaran & Pemudahcaraan (35 Minit)</h2>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs sm:text-sm font-bold">
+              <thead>
+                <tr class="bg-[#FCE4EC] border-b-2 border-[#E07A9F]">
+                  <th class="p-3 rounded-tl-2xl">Fasa / Masa</th>
+                  <th class="p-3">Isi Pelajaran</th>
+                  <th class="p-3">Aktiviti PdPC (Guru & Murid)</th>
+                  <th class="p-3 rounded-tr-2xl">BBM / Pentaksiran</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-[#F8C8DC]">
+                <tr>
+                  <td class="p-3 font-extrabold text-[#C2527B]">Set Induksi<br/>(5 Minit)</td>
+                  <td class="p-3">Pengenalan konsep awal kitab Allah</td>
+                  <td class="p-3">Murid menonton tayangan video Set Induksi (2m) dan menjawab 2 soalan pencetus minda (2m) sebelum guru mengaitkan tajuk pelajaran (1m).</td>
+                  <td class="p-3">Portal KITABQUEST, Video Set Induksi</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-extrabold text-[#3B7CA8]">Langkah 1<br/>(7 Minit)</td>
+                  <td class="p-3">Pengertian & Dalil Naqli (Surah al-Baqarah: 285)</td>
+                  <td class="p-3">Guru menerangkan pengertian kitab Allah dan hukum beriman kepadanya. Murid mendengar audio bacaan dalil dan menjawab semakan kefahaman ringkas.</td>
+                  <td class="p-3">Kad Infografik Digital, Suara AI BM</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-extrabold text-[#9A7410]">Langkah 2<br/>(7 Minit)</td>
+                  <td class="p-3">4 Kitab Allah & Nabi Penerimanya</td>
+                  <td class="p-3">Murid meneroka 4 buku digital 3D (Taurat, Zabur, Injil, Al-Quran) dan menjalankan aktiviti berpasangan <em>Think-Pair-Share</em>.</td>
+                  <td class="p-3">Galeri 4 Buku 3D, Komunikasi 6C</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-extrabold text-[#3B8C5E]">Langkah 3<br/>(6 Minit)</td>
+                  <td class="p-3">Aktiviti Padanan Kitab & Nabi</td>
+                  <td class="p-3">Murid memadankan keempat-empat kitab Allah dengan nabi penerimanya secara interaktif dan menyemak skor secara kendiri.</td>
+                  <td class="p-3">Modul Padanan Interaktif</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-extrabold text-[#C2527B]">Penilaian<br/>(5 Minit)</td>
+                  <td class="p-3">Pentaksiran Formatif Digital</td>
+                  <td class="p-3">Murid menjawab 8 soalan Kuiz Gamifikasi atau latihan Wordwall kelas dengan maklum balas segera.</td>
+                  <td class="p-3">E-Pentaksiran Kuiz & Wordwall</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-extrabold text-[#594A4E]">Penutup<br/>(5 Minit)</td>
+                  <td class="p-3">Rumusan, Penghayatan & Sijil Digital</td>
+                  <td class="p-3">Guru dan murid merumuskan amalan harian beriman kepada Al-Quran, melengkapkan refleksi kendiri serta mencetak sijil penghargaan digital.</td>
+                  <td class="p-3">Borang Refleksi & Sijil Digital</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- RUANGAN MUAT NAIK FAIL RPH SEBENAR & REFLEKSI GURU -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 no-print">
+          <section class="card-3d p-6 space-y-4">
+            <h2 class="text-xl font-display font-extrabold">📎 Muat Naik Fail RPH Sebenar (PDF / DOCX / Imej)</h2>
+            <p class="text-xs font-bold text-[#756368]">Muat naik salinan RPH rasmi sekolah anda untuk rujukan pantas semasa PdPC.</p>
+            <input type="file" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" onchange="handleRphFileUpload(event)" class="block w-full text-xs font-bold file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-[#F8C8DC] file:font-extrabold file:text-[#594A4E]" />
+            ${rph.fileName ? `
+              <div class="p-4 rounded-2xl clay-tint-mint border-2 flex items-center justify-between gap-2 text-xs font-bold">
+                <div>
+                  <div class="font-extrabold">📄 ${rph.fileName}</div>
+                  <div class="opacity-75">${rph.fileSize} • Dimuat naik: ${rph.uploadedAt}</div>
+                </div>
+                <div class="flex gap-2">
+                  ${rph.dataUrl ? `<a href="${rph.dataUrl}" download="${rph.fileName}" class="btn-3d btn-soft px-3 py-1.5 text-xs">📥 Muat Turun</a>` : ''}
+                  <button onclick="clearUploadedRph()" class="btn-3d btn-pink px-3 py-1.5 text-xs">🗑️ Buang</button>
+                </div>
+              </div>
+            ` : `
+              <div class="p-4 rounded-2xl bg-[#FFF8E7] border border-dashed border-[#F8C8DC] text-xs font-bold text-[#756368]">
+                Tiada fail RPH dimuat naik lagi.
+              </div>
+            `}
+          </section>
+
+          <section class="card-3d p-6 space-y-3">
+            <h2 class="text-xl font-display font-extrabold">📝 Refleksi Guru Selepas PdPC</h2>
+            <div class="grid grid-cols-3 gap-2 text-xs font-bold">
+              <div>
+                <label class="block mb-1">Bil. Capai Objektif:</label>
+                <input type="number" min="0" value="${tref.achieved || ''}" oninput="updateTeacherReflection('achieved', this.value)" class="w-full p-2.5 rounded-xl border-2 border-[#F8C8DC] bg-[#FFF8E7]" />
+              </div>
+              <div>
+                <label class="block mb-1">Jumlah Murid:</label>
+                <input type="number" min="0" value="${tref.total || ''}" oninput="updateTeacherReflection('total', this.value)" class="w-full p-2.5 rounded-xl border-2 border-[#F8C8DC] bg-[#FFF8E7]" />
+              </div>
+              <div>
+                <label class="block mb-1">Perlu Bimbingan:</label>
+                <input type="number" min="0" value="${tref.guidance || ''}" oninput="updateTeacherReflection('guidance', this.value)" class="w-full p-2.5 rounded-xl border-2 border-[#F8C8DC] bg-[#FFF8E7]" />
+              </div>
+            </div>
+            <div class="text-xs font-bold space-y-2">
+              <div>
+                <label class="block mb-1">Kekuatan PdPC & Tindakan Susulan:</label>
+                <textarea rows="2" oninput="updateTeacherReflection('followup', this.value)" placeholder="Catat refleksi PdPC dan tindakan pemulihan/pengayaan..." class="w-full p-3 rounded-2xl border-2 border-[#81C784] bg-[#FFF8E7]">${tref.followup || ''}</textarea>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+      `;
+    }
+
+    function handleRphFileUpload(evt) {
+      const file = evt.target.files[0];
+      if (!file) return;
+      const sizeKb = Math.max(1, Math.round(file.size / 1024)) + ' KB';
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        state.uploadedRph = {
+          fileName: file.name,
+          fileType: file.type,
+          fileSize: sizeKb,
+          dataUrl: file.size <= 2 * 1024 * 1024 ? e.target.result : '',
+          uploadedAt: new Date().toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit' })
+        };
+        saveState();
+        renderPage('rph');
+        showToast('📎', 'Fail RPH berjaya dilampirkan!');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function clearUploadedRph() {
+      state.uploadedRph = { fileName: '', fileType: '', fileSize: '', dataUrl: '', uploadedAt: '' };
+      saveState();
+      renderPage('rph');
+    }
+
+    function updateTeacherReflection(field, val) {
+      state.teacherReflection[field] = val;
+      saveState();
+    }
+
+    /*************************************************************************
+     * 3B. CHATBOT AI – USTADZAH / RAKAN AI KITABQUEST
+     *************************************************************************/
+    const CHATBOT_QUICK_PROMPTS = [
+      'Apakah maksud beriman kepada kitab Allah?',
+      'Sebutkan 4 kitab Allah dan nabi yang menerimanya.',
+      'Mengapa Al-Quran istimewa berbanding kitab terdahulu?',
+      'Bagaimanakah adab kita terhadap Al-Quran?'
+    ];
+
+    let chatHistory = [
+      {
+        sender: 'bot',
+        text: 'Assalamualaikum anak-anak Tahun 3! 🌸 Saya Rakan AI KITABQUEST. Tanyalah apa-apa soalan tentang 4 Kitab Allah (Taurat, Zabur, Injil dan Al-Quran)!'
+      }
+    ];
+    let isChatbotLoading = false;
+
+    function renderChatbotPage() {
+      return `
+      <div class="space-y-6 animate-pop">
+        <section class="card-3d clay-hero-bg p-6 sm:p-8 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <span class="px-3.5 py-1 rounded-full bg-white border-2 border-[#F8C8DC] text-xs font-extrabold">🤖 Rakan Belajar Pintar • Pendidikan Islam Tahun 3</span>
+            <h1 class="text-2xl sm:text-4xl font-display font-extrabold mt-1">Chatbot AI KITABQUEST</h1>
+            <p class="text-sm font-bold text-[#756368]">Tanya soalan ringkas tentang tajuk Beriman kepada Kitab Allah dalam Bahasa Melayu.</p>
+          </div>
+          <button onclick="resetChatbotConversation()" class="btn-3d btn-soft px-4 py-2 text-xs sm:text-sm">
+            🔄 Mula Perbualan Baharu
+          </button>
+        </section>
+
+        <section class="card-3d p-5 sm:p-7 space-y-4">
+          <!-- SOALAN PANTAS -->
+          <div class="space-y-2">
+            <div class="text-xs font-extrabold text-[#756368]">💡 Klik Soalan Pantas:</div>
+            <div class="flex flex-wrap gap-2">
+              ${CHATBOT_QUICK_PROMPTS.map((q, pIdx) => `
+                <button onclick="sendQuickChatbotPromptByIndex(${pIdx})" class="px-3.5 py-2 rounded-2xl bg-[#FFF8E7] hover:bg-[#FCE4EC] border-2 border-[#F8C8DC] text-xs font-extrabold text-left transition-colors">
+                  ✨ ${q}
+                </button>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- RUANG MESEJ -->
+          <div id="chatbot-messages-box" class="h-80 sm:h-96 overflow-y-auto p-4 rounded-3xl bg-[#FFF8E7] border-2 border-[#F8C8DC] space-y-3">
+            ${chatHistory.map((m, mIdx) => `
+              <div class="flex items-start gap-2.5 ${m.sender === 'user' ? 'justify-end' : 'justify-start'}">
+                ${m.sender === 'bot' ? '<div class="w-9 h-9 rounded-2xl bg-[#F8C8DC] border border-[#E07A9F] flex items-center justify-center text-lg shrink-0">🤖</div>' : ''}
+                <div class="max-w-[82%] p-3.5 rounded-2xl text-sm font-bold leading-relaxed ${
+                  m.sender === 'user'
+                    ? 'bg-[#D6EAF8] border-2 border-[#85C1E9] text-[#594A4E]'
+                    : 'bg-white border-2 border-[#F8C8DC] text-[#594A4E]'
+                }">
+                  <div>${m.text}</div>
+                  ${m.sender === 'bot' ? `
+                    <button onclick="speakChatbotMessage(${mIdx})" class="mt-2 inline-flex items-center gap-1 text-[11px] font-extrabold px-2.5 py-1 rounded-xl bg-[#FCE4EC] hover:bg-[#F8C8DC]">
+                      🔊 Dengar Jawapan
+                    </button>
+                  ` : ''}
+                </div>
+                ${m.sender === 'user' ? '<div class="w-9 h-9 rounded-2xl bg-[#C8E6C9] border border-[#66BB6A] flex items-center justify-center text-lg shrink-0">🎒</div>' : ''}
+              </div>
+            `).join('')}
+            ${isChatbotLoading ? `
+              <div class="flex items-center gap-2 text-xs font-extrabold text-[#C2527B]">
+                <span>🤖 Rakan AI sedang menaip jawapan...</span>
+              </div>
+            ` : ''}
+          </div>
+
+          <!-- BORANG HANTAR SOALAN -->
+          <form onsubmit="handleChatbotSubmit(event)" class="flex gap-2.5">
+            <input
+              id="chatbot-user-input"
+              type="text"
+              placeholder="Taip soalan kamu tentang Kitab Allah di sini..."
+              class="flex-1 px-4 py-3 rounded-2xl border-2 border-[#F8C8DC] bg-white text-sm font-bold focus:outline-none focus:border-[#E07A9F]"
+              ${isChatbotLoading ? 'disabled' : ''}
+            />
+            <button type="submit" class="btn-3d btn-pink px-5 py-3 text-sm" ${isChatbotLoading ? 'disabled' : ''}>
+              Hantar 🚀
+            </button>
+          </form>
+        </section>
+      </div>
+      `;
+    }
+
+    function scrollChatToBottom() {
+      setTimeout(() => {
+        const box = document.getElementById('chatbot-messages-box');
+        if (box) box.scrollTop = box.scrollHeight;
+      }, 30);
+    }
+
+    function speakChatbotMessage(idx) {
+      const msg = chatHistory[idx];
+      if (msg && msg.text) speakMalay(msg.text);
+    }
+
+    function resetChatbotConversation() {
+      stopSpeech();
+      chatHistory = [
+        {
+          sender: 'bot',
+          text: 'Assalamualaikum anak-anak Tahun 3! 🌸 Saya Rakan AI KITABQUEST. Tanyalah apa-apa soalan tentang 4 Kitab Allah (Taurat, Zabur, Injil dan Al-Quran)!'
+        }
+      ];
+      renderPage('chatbot');
+    }
+
+    function sendQuickChatbotPromptByIndex(idx) {
+      const prompt = CHATBOT_QUICK_PROMPTS[idx];
+      if (prompt) processChatbotQuestion(prompt);
+    }
+
+    function handleChatbotSubmit(evt) {
+      evt.preventDefault();
+      const input = document.getElementById('chatbot-user-input');
+      if (!input) return;
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      processChatbotQuestion(text);
+    }
+
+    function getCurriculumFallbackAnswer(question) {
+      const q = question.toLowerCase();
+      if (q.includes('taurat') || q.includes('musa')) {
+        return 'Kitab Taurat diturunkan oleh Allah SWT kepada Nabi Musa AS dalam bahasa Ibrani sebagai panduan hidup bagi kaum Bani Israel. 📖';
+      }
+      if (q.includes('zabur') || q.includes('daud')) {
+        return 'Kitab Zabur diturunkan oleh Allah SWT kepada Nabi Daud AS dan mengandungi zikir, doa serta puji-pujian kepada Allah SWT. 🌟';
+      }
+      if (q.includes('injil') || q.includes('isa')) {
+        return 'Kitab Injil diturunkan oleh Allah SWT kepada Nabi Isa AS dalam bahasa Suryani untuk membimbing kaum Bani Israel. ✨';
+      }
+      if (q.includes('quran') || q.includes('muhammad') || q.includes('istimewa')) {
+        return 'Kitab Al-Quran ialah kalam Allah yang terakhir diturunkan kepada Nabi Muhammad SAW dalam bahasa Arab untuk seluruh umat manusia dan keasliannya terpelihara hingga hari kiamat! 🕌';
+      }
+      if (q.includes('adab')) {
+        return 'Antara adab terhadap Al-Quran ialah berwuduk sebelum menyentuhnya, membaca dengan bertajwid, menutup aurat dan meletakkan Al-Quran di tempat yang tinggi serta mulia. 💖';
+      }
+      if (q.includes('4') || q.includes('empat') || q.includes('senarai') || q.includes('nabi')) {
+        return 'Terdapat 4 buah kitab Allah yang wajib kita ketahui: 1) Kitab Taurat (Nabi Musa AS), 2) Kitab Zabur (Nabi Daud AS), 3) Kitab Injil (Nabi Isa AS), dan 4) Kitab Al-Quran (Nabi Muhammad SAW). 📚';
+      }
+      return 'Beriman kepada kitab Allah ialah Rukun Iman yang ke-3. Kita wajib yakin bahawa Allah SWT telah menurunkan 4 kitab suci (Taurat, Zabur, Injil dan Al-Quran) kepada para rasul sebagai panduan hidup manusia! 🌸';
+    }
+
+    async function processChatbotQuestion(userQuestion) {
+      if (isChatbotLoading) return;
+      chatHistory.push({ sender: 'user', text: userQuestion });
+      isChatbotLoading = true;
+      renderPage('chatbot');
+      scrollChatToBottom();
+
+      const apiKey = "";
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+      const systemInstruction = 'Anda ialah guru pembantu Pendidikan Islam Tahun 3 yang mesra, lembut dan ceria bernama Rakan AI KITABQUEST. Jawab dalam Bahasa Melayu Malaysia yang mudah difahami murid berumur 9 tahun (2-4 ayat sahaja) berdasarkan DSKP Pendidikan Islam Tahun 3 tajuk Beriman kepada Kitab Allah (Taurat - Nabi Musa AS, Zabur - Nabi Daud AS, Injil - Nabi Isa AS, Al-Quran - Nabi Muhammad SAW).';
+
+      let botReply = null;
+      const delays = [800, 1600];
+      for (let attempt = 0; attempt <= delays.length; attempt++) {
+        try {
+          const resp = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              systemInstruction: { parts: [{ text: systemInstruction }] },
+              contents: [{ parts: [{ text: userQuestion }] }]
+            })
+          });
+          if (!resp.ok) throw new Error('HTTP ' + resp.status);
+          const data = await resp.json();
+          const candidateText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (candidateText) {
+            botReply = candidateText.trim();
+            break;
+          }
+          throw new Error('Tiada respons teks');
+        } catch (err) {
+          if (attempt < delays.length) {
+            await new Promise(r => setTimeout(r, delays[attempt]));
+          }
+        }
+      }
+
+      if (!botReply) {
+        botReply = getCurriculumFallbackAnswer(userQuestion);
+      }
+
+      isChatbotLoading = false;
+      chatHistory.push({ sender: 'bot', text: botReply });
+      renderPage('chatbot');
+      scrollChatToBottom();
+    }
+
+    /*************************************************************************
+     * 4. SET INDUKSI (5 MINIT) – RUANGAN VIDEO BAHARU + SOALAN PENCETUS
+     *************************************************************************/
+    function renderSetInduksiPage() {
+      const q1Done = state.induksiCheckpointsDone[0];
+      const q2Done = state.induksiCheckpointsDone[1];
+
+      return `
+      <div class="space-y-7 animate-pop">
+        <section class="card-3d clay-hero-bg p-6 sm:p-8 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <span class="px-3.5 py-1 rounded-full bg-white border-2 border-[#F8C8DC] text-xs font-extrabold">🌈 Set Induksi • 5 Minit (2m Video + 2m Soal Jawab + 1m Perkaitan)</span>
+            <h1 class="text-2xl sm:text-4xl font-display font-extrabold mt-1">Apakah Kitab Allah?</h1>
+            <p class="text-sm font-bold text-[#756368]">Tonton video Set Induksi dan jawab 2 soalan pencetus di bawah sebelum memulakan aktiviti.</p>
+          </div>
+          <span class="px-4 py-2 rounded-2xl bg-[#FFF0B3] border-2 border-[#F7DC6F] text-xs font-extrabold">
+            🎬 Ruangan Video Set Induksi
+          </span>
+        </section>
+
+        <!-- RUANGAN PLACEHOLDER VIDEO SET INDUKSI (SEDIA UNTUK DIMASUKKAN VIDEO BAHARU) -->
+        <section class="card-3d p-5 sm:p-7 space-y-4">
+          <div id="induksi-video-slot" class="w-full aspect-video max-h-[440px] rounded-3xl border-3 border-dashed border-[#E07A9F] bg-[#FFF8E7] flex flex-col items-center justify-center p-6 text-center space-y-3">
+            <div class="w-16 h-16 rounded-2xl bg-[#FCE4EC] border-2 border-[#E07A9F] flex items-center justify-center text-3xl shadow-xs">
+              🎬
+            </div>
+            <h2 class="text-lg sm:text-2xl font-display font-extrabold text-[#594A4E]">
+              Ruangan Video Set Induksi
+            </h2>
+            <p class="text-xs sm:text-sm font-bold text-[#756368] max-w-md">
+              Video animasi terdahulu telah dibuang. Ruang ini disediakan khas untuk anda memasukkan fail video (<code>&lt;video&gt;</code>) atau pautan benam (<code>&lt;iframe&gt;</code>) video pilihan anda nanti.
+            </p>
+          </div>
+        </section>
+
+        <!-- AKTIVITI SELEPAS VIDEO: 2 SOALAN PENCETUS -->
+        <section class="card-3d p-6 sm:p-8 space-y-5">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <span class="px-3 py-1 rounded-full bg-[#C8E6C9] text-xs font-extrabold">💬 Aktiviti Soal Jawab (2 Minit)</span>
+              <h2 class="text-xl sm:text-2xl font-display font-extrabold mt-1">Soalan Pencetus Selepas Video</h2>
+            </div>
+            <span class="text-xs font-extrabold text-[#756368]">Jawab kedua-dua soalan untuk meneruskan aktiviti</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <!-- Soalan 1 -->
+            <div class="p-5 rounded-3xl clay-tint-pink border-2 space-y-3">
+              <div class="font-display font-bold text-base sm:text-lg">1. Apakah maksud kitab Allah?</div>
+              <div class="space-y-2 text-sm font-bold">
+                <button onclick="answerInduksiQuestion(0, true)" class="w-full text-left p-3 rounded-2xl bg-white hover:bg-[#C8E6C9] border-2 border-[#F8C8DC] transition-colors">
+                  A) Wahyu Allah yang diturunkan kepada para rasul sebagai panduan hidup.
+                </button>
+                <button onclick="answerInduksiQuestion(0, false)" class="w-full text-left p-3 rounded-2xl bg-white hover:bg-[#FFF0B3] border-2 border-[#F8C8DC] transition-colors">
+                  B) Buku cerita rekaan manusia biasa.
+                </button>
+              </div>
+              ${q1Done ? `<div class="p-3 rounded-2xl bg-[#C8E6C9] border border-[#66BB6A] text-xs font-extrabold">🌟 Syabas! Jawapan kamu tepat sekali.</div>` : ''}
+            </div>
+
+            <!-- Soalan 2 -->
+            <div class="p-5 rounded-3xl clay-tint-blue border-2 space-y-3">
+              <div class="font-display font-bold text-base sm:text-lg">2. Berapakah kitab Allah yang wajib kita ketahui?</div>
+              <div class="space-y-2 text-sm font-bold">
+                <button onclick="answerInduksiQuestion(1, false)" class="w-full text-left p-3 rounded-2xl bg-white hover:bg-[#FFF0B3] border-2 border-[#85C1E9] transition-colors">
+                  A) Dua buah kitab sahaja.
+                </button>
+                <button onclick="answerInduksiQuestion(1, true)" class="w-full text-left p-3 rounded-2xl bg-white hover:bg-[#C8E6C9] border-2 border-[#85C1E9] transition-colors">
+                  B) Empat buah kitab (Taurat, Zabur, Injil dan Al-Quran).
+                </button>
+              </div>
+              ${q2Done ? `<div class="p-3 rounded-2xl bg-[#C8E6C9] border border-[#66BB6A] text-xs font-extrabold">🌟 Bagus! Empat kitab Allah wajib kita imani.</div>` : ''}
+            </div>
+          </div>
+
+          <div class="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-[#F8C8DC]">
+            <p class="text-xs sm:text-sm font-bold text-[#756368]">
+              🔗 <strong>Perkaitan Tajuk (1 Minit):</strong> Hari ini kita akan mendalami maksud beriman kepada kitab Allah serta mengenali keempat-empat kitab suci tersebut.
+            </p>
+            <button onclick="triggerStarBurst(); navigateTo('langkah-1')" class="btn-3d btn-pink px-6 py-3 text-sm sm:text-base">
+              🚀 MULA AKTIVITI
+            </button>
+          </div>
+        </section>
+      </div>
+      `;
+    }
+
+    function stopInduksi3DAnimation() {}
+
+    function answerInduksiQuestion(qIdx, isCorrect) {
+      if (isCorrect) {
+        state.induksiCheckpointsDone[qIdx] = true;
+        saveState();
+        playCuteChime('success');
+        triggerStarBurst();
+        renderPage('set-induksi');
+      } else {
+        playCuteChime('wrong');
+        showToast('💡', 'Cuba lagi! Fikirkan maksud wahyu Allah kepada para rasul.');
+      }
+    }
+
+    /*************************************************************************
+     * 5. LANGKAH 1 – PENERANGAN KONSEP (7 MINIT)
+     *************************************************************************/
+    function renderLangkah1Page() {
+      return `
+      <div class="space-y-7 animate-pop">
+        <section class="card-3d clay-hero-bg p-6 sm:p-8 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <span class="px-3.5 py-1 rounded-full bg-white border-2 border-[#F8C8DC] text-xs font-extrabold">💡 Langkah 1 • 7 Minit (Minit 6–12)</span>
+            <h1 class="text-2xl sm:text-4xl font-display font-extrabold mt-1">Apa Itu Beriman kepada Kitab Allah?</h1>
+            <p class="text-sm font-bold text-[#756368]">Fahami pengertian kitab Allah, dalil naqli yang sahih serta kewajipan kita sebagai umat Islam.</p>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="speakMalay('Beriman kepada kitab Allah bermaksud yakin dan percaya dengan sepenuh hati bahawa Allah Subhanahu Wa Taala telah menurunkan kitab-kitab suci kepada para rasul sebagai panduan hidup manusia.')" class="btn-3d btn-blue px-4 py-2.5 text-xs sm:text-sm">
+              🔊 Dengar Penerangan
+            </button>
+            <button onclick="stopSpeech()" class="btn-3d btn-soft px-3.5 py-2.5 text-xs sm:text-sm">⏹️ Henti</button>
+          </div>
+        </section>
+
+        <!-- KAD KONSEP & INFOGRAFIK -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <section class="card-3d p-6 space-y-4">
+            <div class="inline-block px-3.5 py-1 rounded-full bg-[#FCE4EC] text-xs font-extrabold">📖 Pengertian Kitab Allah</div>
+            <h2 class="text-xl sm:text-2xl font-display font-extrabold">Wahyu dan Panduan Hidup Manusia</h2>
+            <p class="text-base font-bold leading-relaxed">
+              <strong>Kitab Allah</strong> ialah wahyu dan kalam Allah SWT yang diturunkan kepada para rasul-Nya sebagai petunjuk dan panduan hidup manusia di dunia dan di akhirat.
+            </p>
+            <div class="p-4 rounded-2xl clay-tint-yellow border-2 space-y-1.5 text-sm font-bold">
+              <div>✨ <strong>Hukum Beriman kepada Kitab Allah:</strong> <span class="text-[#C2527B]">WAJIB</span></div>
+              <div>🌟 Beriman kepada kitab-kitab Allah merupakan <strong>Rukun Iman yang ke-3</strong>.</div>
+            </div>
+          </section>
+
+          <!-- DALIL NAQLI SAHIH -->
+          <section class="card-3d p-6 space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="px-3.5 py-1 rounded-full bg-[#C8E6C9] text-xs font-extrabold">🕌 Dalil Naqli Kewajipan Beriman</span>
+              <span class="text-xs font-extrabold text-[#3B8C5E]">Surah al-Baqarah (2:285)</span>
+            </div>
+            <div class="p-4 rounded-2xl bg-[#FFF8E7] border-2 border-[#81C784] text-right">
+              <p class="font-arabic text-2xl sm:text-3xl font-bold" dir="rtl">
+                آمَنَ الرَّسُولُ بِمَا أُنزِلَ إِلَيْهِ مِن رَّبِّهِ وَالْمُؤْمِنُونَ ۚ كُلٌّ آمَنَ بِاللَّهِ وَمَلَائِكَتِهِ وَكُتُبِهِ وَرُسُلِهِ
+              </p>
+            </div>
+            <p class="text-sm font-bold text-[#594A4E] italic">
+              <strong>Maksudnya:</strong> “Rasulullah telah beriman kepada apa yang diturunkan kepadanya dari Tuhannya, dan juga orang-orang yang beriman; semuanya beriman kepada Allah, dan malaikat-malaikat-Nya, dan <strong>kitab-kitab-Nya</strong>, dan rasul-rasul-Nya...”
+            </p>
+          </section>
+        </div>
+
+        <!-- SEMAK KEFAHAMAN & BUTANG SAYA FAHAM -->
+        <section class="card-3d p-6 sm:p-8 space-y-4">
+          <h2 class="text-xl font-display font-extrabold">🧠 Semak Kefahaman Ringkas</h2>
+          <p class="text-sm sm:text-base font-bold">Beriman kepada kitab-kitab Allah ialah Rukun Iman yang ke berapa?</p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm font-bold">
+            ${['Rukun Iman ke-2', 'Rukun Iman ke-3', 'Rukun Iman ke-5'].map((opt, idx) => `
+              <button onclick="checkLangkah1Quiz(${idx})" class="p-3.5 rounded-2xl border-2 text-left transition-all ${
+                state.langkah1QuizAnswer === idx
+                  ? (idx === 1 ? 'bg-[#C8E6C9] border-[#66BB6A]' : 'bg-[#FCE4EC] border-[#E07A9F]')
+                  : 'bg-white border-[#F8C8DC] hover:bg-[#FFF8E7]'
+              }">
+                ${opt}
+              </button>
+            `).join('')}
+          </div>
+
+          <div class="pt-3 flex flex-wrap items-center justify-between gap-3 border-t border-[#F8C8DC]">
+            <span class="text-xs font-extrabold text-[#756368]">
+              ${state.langkah1Understood ? '✅ Kamu telah menandakan bahagian ini sebagai difahami.' : 'Klik butang di sebelah apabila kamu sudah memahami konsep ini.'}
+            </span>
+            <button onclick="markLangkah1Understood()" class="btn-3d ${state.langkah1Understood ? 'btn-mint' : 'btn-pink'} px-6 py-3 text-sm sm:text-base">
+              ${state.langkah1Understood ? '🌟 Saya Sudah Faham!' : '👍 Saya Faham'}
+            </button>
+          </div>
+        </section>
+      </div>
+      `;
+    }
+
+    function checkLangkah1Quiz(idx) {
+      state.langkah1QuizAnswer = idx;
+      saveState();
+      if (idx === 1) {
+        playCuteChime('success');
+        triggerStarBurst();
+        showToast('🌟', 'Tepat sekali! Beriman kepada kitab ialah Rukun Iman ke-3.');
+      } else {
+        playCuteChime('wrong');
+        showToast('💡', 'Cuba lagi! Rukun Iman: 1. Allah, 2. Malaikat, 3. Kitab...');
+      }
+      renderPage('langkah-1');
+    }
+
+    function markLangkah1Understood() {
+      state.langkah1Understood = true;
+      saveState();
+      playCuteChime('success');
+      triggerStarBurst();
+      renderPage('langkah-1');
+      showToast('💖', 'Syabas! Jom terokai empat kitab Allah seterusnya.');
+    }
+
+    /*************************************************************************
+     * 6. LANGKAH 2 – PENEROKAAN 4 KITAB ALLAH (7 MINIT)
+     *************************************************************************/
+    function renderLangkah2Page() {
+      return `
+      <div class="space-y-7 animate-pop">
+        <section class="card-3d clay-hero-bg p-6 sm:p-8 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <span class="px-3.5 py-1 rounded-full bg-white border-2 border-[#F8C8DC] text-xs font-extrabold">📚 Langkah 2 • 7 Minit (Minit 13–19)</span>
+            <h1 class="text-2xl sm:text-4xl font-display font-extrabold mt-1">Penerokaan 4 Kitab Allah</h1>
+            <p class="text-sm font-bold text-[#756368]">Klik setiap buku digital 3D untuk membuka dan membaca maklumat nabi penerimanya.</p>
+          </div>
+          <span class="px-4 py-2 rounded-2xl bg-[#C8E6C9] border-2 border-[#81C784] text-xs font-extrabold">
+            📖 Buku Dibuka: ${state.openedBooks.length} / 4
+          </span>
+        </section>
+
+        <!-- GALERI 4 BUKU DIGITAL 3D -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          ${FOUR_KITABS.map((book, bIdx) => {
+            const isOpen = state.openedBooks.includes(book.id);
+            return `
+            <div class="card-3d p-6 bg-gradient-to-br ${book.colorBg} border-3 ${book.borderCol} space-y-4 transition-all">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <span class="px-3 py-1 rounded-full ${book.badgeBg} text-xs font-extrabold border border-white">
+                    ${isOpen ? '📖 Buku Terbuka' : '📕 Klik untuk Buka'}
+                  </span>
+                  <h2 class="text-2xl font-display font-extrabold mt-2">${book.name}</h2>
+                  <p class="font-arabic text-2xl font-bold ${book.accentText}">${book.arabic}</p>
+                </div>
+                <button onclick="toggleOpenKitabBook('${book.id}')" class="btn-3d btn-soft px-4 py-2 text-xs">
+                  ${isOpen ? '📕 Tutup' : '📖 Buka Buku'}
+                </button>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-white/95 border-2 ${book.borderCol} space-y-2">
+                <div class="flex flex-wrap items-center justify-between gap-2 text-sm font-extrabold">
+                  <span>🕌 Nabi Penerima: <span class="${book.accentText}">${book.prophet}</span></span>
+                  <span class="text-xs px-2.5 py-0.5 rounded-full bg-[#FFF8E7] border">${book.language}</span>
+                </div>
+                ${isOpen ? `
+                  <p class="text-sm font-bold text-[#594A4E] pt-1 leading-relaxed">${book.summary}</p>
+                  <div class="text-xs font-bold text-[#756368] bg-[#FFF8E7] p-2.5 rounded-xl">
+                    💡 <strong>Info Tambahan:</strong> ${book.fact} • <strong>Sasaran:</strong> ${book.nation}
+                  </div>
+                ` : `
+                  <p class="text-xs font-bold text-[#756368]">Tekan butang <strong>Buka Buku</strong> untuk membaca penerangan lengkap dan mendengar audio.</p>
+                `}
+              </div>
+
+              <div class="flex items-center justify-between gap-2">
+                <button onclick="speakKitabAudio(${bIdx})" class="btn-3d btn-blue px-4 py-2 text-xs">
+                  🔊 Dengar Audio ${book.name}
+                </button>
+                <span class="text-xs font-extrabold text-[#756368]">${book.nation}</span>
+              </div>
+            </div>
+            `;
+          }).join('')}
+        </div>
+
+        <!-- AKTIVITI PERBINCANGAN BERPASANGAN (THINK-PAIR-SHARE) -->
+        <section class="card-3d p-6 sm:p-8 clay-tint-cream space-y-3">
+          <h2 class="text-xl font-display font-extrabold">👫 Aktiviti Perbincangan Berpasangan (Think-Pair-Share)</h2>
+          <p class="text-sm sm:text-base font-bold">
+            Bersama rakan di sebelah kamu, sebutkan secara bergilir-gilir:
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm font-bold">
+            <div class="p-3.5 rounded-2xl bg-white border-2 border-[#F8C8DC]">
+              🗣️ <strong>Murid A:</strong> Menyebut nama 4 kitab Allah (<em>Taurat, Zabur, Injil, Al-Quran</em>).
+            </div>
+            <div class="p-3.5 rounded-2xl bg-white border-2 border-[#81C784]">
+              🗣️ <strong>Murid B:</strong> Menyebut nama nabi yang menerima setiap kitab tersebut dengan tepat.
+            </div>
+          </div>
+        </section>
+      </div>
+      `;
+    }
+
+    function toggleOpenKitabBook(bookId) {
+      if (state.openedBooks.includes(bookId)) {
+        state.openedBooks = state.openedBooks.filter(id => id !== bookId);
+      } else {
+        state.openedBooks.push(bookId);
+        playCuteChime('success');
+        const book = FOUR_KITABS.find(b => b.id === bookId);
+        if (book) speakMalay(book.audioText);
+      }
+      saveState();
+      renderPage('langkah-2');
+    }
+
+    function speakKitabAudio(idx) {
+      const book = FOUR_KITABS[idx];
+      if (book) speakMalay(book.audioText);
+    }
+
+    /*************************************************************************
+     * 7. LANGKAH 3 – AKTIVITI PADANAN (6 MINIT)
+     *************************************************************************/
+    let matchingState = {
+      selectedKitab: null,
+      matches: {}, // { kitabId: prophetId }
+      checked: false,
+      shuffledProphets: []
+    };
+
+    function initMatchingItems() {
+      if (matchingState.shuffledProphets.length === 0) {
+        matchingState.shuffledProphets = [...FOUR_KITABS]
+          .map(k => ({ id: k.id, prophet: k.prophet }))
+          .sort(() => Math.random() - 0.5);
+      }
+    }
+
+    function renderLangkah3Page() {
+      initMatchingItems();
+      const matchedCount = Object.keys(matchingState.matches).length;
+
+      return `
+      <div class="space-y-7 animate-pop">
+        <section class="card-3d clay-hero-bg p-6 sm:p-8 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <span class="px-3.5 py-1 rounded-full bg-white border-2 border-[#F8C8DC] text-xs font-extrabold">🧩 Langkah 3 • 6 Minit (Minit 20–25)</span>
+            <h1 class="text-2xl sm:text-4xl font-display font-extrabold mt-1">Aktiviti Padanan Kitab & Nabi Penerima</h1>
+            <p class="text-sm font-bold text-[#756368]">Klik nama kitab di sebelah kiri, kemudian klik nabi penerimanya di sebelah kanan (atau seret & lepas).</p>
+          </div>
+          <div class="px-4 py-2 rounded-2xl bg-[#FFF0B3] border-2 border-[#F7DC6F] text-sm font-extrabold">
+            ⭐ Skor: ${state.matchingScore} / 4
+          </div>
+        </section>
+
+        <section class="card-3d p-6 sm:p-8 space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- LAJUR KIRI: 4 KITAB -->
+            <div class="space-y-3">
+              <h2 class="font-display font-bold text-lg text-center bg-[#FCE4EC] py-2 rounded-2xl border border-[#F8C8DC]">📚 Nama Kitab Allah</h2>
+              ${FOUR_KITABS.map(k => {
+                const isSelected = matchingState.selectedKitab === k.id;
+                const assignedId = matchingState.matches[k.id];
+                const assignedObj = FOUR_KITABS.find(x => x.id === assignedId);
+                const isCorrect = matchingState.checked && assignedId === k.id;
+                const isWrong = matchingState.checked && assignedId && assignedId !== k.id;
+
+                return `
+                <button
+                  draggable="true"
+                  ondragstart="onDragKitab(event, '${k.id}')"
+                  onclick="selectKitabForMatch('${k.id}')"
+                  class="w-full p-4 rounded-2xl border-3 text-left transition-all flex items-center justify-between gap-2 ${
+                    isCorrect
+                      ? 'bg-[#C8E6C9] border-[#66BB6A]'
+                      : isWrong
+                        ? 'bg-[#FCE4EC] border-[#E07A9F]'
+                        : isSelected
+                          ? 'bg-[#FFF0B3] border-[#D4AC0D] scale-[1.02]'
+                          : 'bg-white border-[#F8C8DC] hover:bg-[#FFF8E7]'
+                  }"
+                >
+                  <div>
+                    <div class="font-display font-bold text-lg">${k.name}</div>
+                    <div class="text-xs font-extrabold text-[#756368]">
+                      ${assignedObj ? `➡️ Dipadankan: ${assignedObj.prophet}` : 'Klik untuk pilih kitab ini'}
+                    </div>
+                  </div>
+                  <span class="text-xl">${isCorrect ? '✅' : isWrong ? '❌' : '📖'}</span>
+                </button>
+                `;
+              }).join('')}
+            </div>
+
+            <!-- LAJUR KANAN: 4 NABI PENERIMA -->
+            <div class="space-y-3">
+              <h2 class="font-display font-bold text-lg text-center bg-[#D6EAF8] py-2 rounded-2xl border border-[#85C1E9]">🕌 Nabi Penerima</h2>
+              ${matchingState.shuffledProphets.map(p => {
+                const pairedKitabId = Object.keys(matchingState.matches).find(kId => matchingState.matches[kId] === p.id);
+                const pairedKitab = FOUR_KITABS.find(x => x.id === pairedKitabId);
+                return `
+                <button
+                  ondragover="event.preventDefault()"
+                  ondrop="onDropProphet(event, '${p.id}')"
+                  onclick="assignProphetToSelectedKitab('${p.id}')"
+                  class="w-full p-4 rounded-2xl border-3 text-left transition-all flex items-center justify-between gap-2 ${
+                    pairedKitab
+                      ? 'bg-[#D6EAF8]/70 border-[#7FB3D5]'
+                      : 'bg-white border-[#85C1E9] hover:bg-[#FFF8E7]'
+                  }"
+                >
+                  <div>
+                    <div class="font-display font-bold text-lg">${p.prophet}</div>
+                    <div class="text-xs font-extrabold text-[#3B7CA8]">
+                      ${pairedKitab ? `🔗 ${pairedKitab.name}` : 'Klik atau lepas kitab di sini'}
+                    </div>
+                  </div>
+                  <span class="text-xl">🌟</span>
+                </button>
+                `;
+              }).join('')}
+            </div>
+          </div>
+
+          <!-- BUTANG SEMAK & CUBA LAGI -->
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-[#F8C8DC]">
+            <div class="text-sm font-bold text-[#756368]">
+              Padanan lengkap: <strong>${matchedCount} / 4</strong>
+            </div>
+            <div class="flex flex-wrap gap-2.5">
+              <button onclick="resetMatchingGame()" class="btn-3d btn-soft px-4 py-2.5 text-sm">
+                🔄 Cuba Lagi (Acak Semula)
+              </button>
+              <button onclick="checkMatchingAnswers()" class="btn-3d btn-mint px-6 py-2.5 text-sm sm:text-base">
+                ✅ Semak Jawapan
+              </button>
+            </div>
+          </div>
+
+          ${matchingState.checked ? `
+            <div class="p-5 rounded-3xl ${state.matchingScore === 4 ? 'bg-[#C8E6C9] border-2 border-[#66BB6A]' : 'bg-[#FFF0B3] border-2 border-[#D4AC0D]'} text-center space-y-1">
+              <div class="text-2xl">${state.matchingScore === 4 ? '⭐⭐⭐⭐ TAHNIAH! 4/4 BETUL!' : `🌟 Skor Kamu: ${state.matchingScore} / 4`}</div>
+              <p class="text-sm font-bold">
+                ${state.matchingScore === 4
+                  ? 'Cemerlang! Kamu telah menguasai padanan keempat-empat kitab Allah dengan nabi penerimanya.'
+                  : 'Bagus! Semak kotak yang bertanda ❌ dan tekan Cuba Lagi untuk mencapai kriteria kejayaan 4/4.'}
+              </p>
+            </div>
+          ` : ''}
+        </section>
+      </div>
+      `;
+    }
+
+    function selectKitabForMatch(kitabId) {
+      matchingState.selectedKitab = kitabId;
+      matchingState.checked = false;
+      renderPage('langkah-3');
+    }
+
+    function assignProphetToSelectedKitab(prophetId) {
+      if (!matchingState.selectedKitab) {
+        showToast('👆', 'Sila pilih nama kitab di sebelah kiri terlebih dahulu.');
+        return;
+      }
+      // Pastikan satu nabi hanya dipadankan dengan satu kitab
+      Object.keys(matchingState.matches).forEach(k => {
+        if (matchingState.matches[k] === prophetId) delete matchingState.matches[k];
+      });
+      matchingState.matches[matchingState.selectedKitab] = prophetId;
+      matchingState.selectedKitab = null;
+      matchingState.checked = false;
+      playCuteChime('success');
+      renderPage('langkah-3');
+    }
+
+    function onDragKitab(evt, kitabId) {
+      evt.dataTransfer.setData('text/plain', kitabId);
+    }
+
+    function onDropProphet(evt, prophetId) {
+      evt.preventDefault();
+      const kitabId = evt.dataTransfer.getData('text/plain');
+      if (kitabId) {
+        matchingState.selectedKitab = kitabId;
+        assignProphetToSelectedKitab(prophetId);
+      }
+    }
+
+    function checkMatchingAnswers() {
+      let score = 0;
+      FOUR_KITABS.forEach(k => {
+        if (matchingState.matches[k.id] === k.id) score++;
+      });
+      matchingState.checked = true;
+      state.matchingScore = score;
+      state.matchingCompleted = score === 4;
+      saveState();
+
+      if (score === 4) {
+        playCuteChime('success');
+        triggerStarBurst();
+        speakMalay('Tahniah! Kamu berjaya memadankan kesemua empat kitab Allah dengan betul.');
+      } else {
+        playCuteChime('wrong');
+      }
+      renderPage('langkah-3');
+    }
+
+    function resetMatchingGame() {
+      matchingState.selectedKitab = null;
+      matchingState.matches = {};
+      matchingState.checked = false;
+      matchingState.shuffledProphets = [...FOUR_KITABS]
+        .map(k => ({ id: k.id, prophet: k.prophet }))
+        .sort(() => Math.random() - 0.5);
+      renderPage('langkah-3');
+    }
+
+    /*************************************************************************
+     * 8. PENILAIAN DIGITAL (5 MINIT) – KUIZ GAMESHOW TERBINA DALAM + WORDWALL
+     *************************************************************************/
+    const ASSESSMENT_QUESTIONS = [
+      {
+        q: 'Apakah pengertian kitab Allah?',
+        options: [
+          'Wahyu Allah yang diturunkan kepada para rasul sebagai panduan hidup',
+          'Buku sejarah tulisan manusia zaman dahulu',
+          'Kisah dongeng sebelum tidur',
+          'Catatan harian para sahabat'
+        ],
+        correct: 0,
+        explain: 'Kitab Allah ialah wahyu dan kalam Allah SWT yang diturunkan kepada para rasul sebagai panduan hidup manusia.'
+      },
+      {
+        q: 'Beriman kepada kitab-kitab Allah merupakan Rukun Iman yang ke berapa?',
+        options: ['Pertama', 'Kedua', 'Ketiga', 'Keempat'],
+        correct: 2,
+        explain: 'Beriman kepada kitab-kitab Allah ialah Rukun Iman yang ketiga.'
+      },
+      {
+        q: 'Kitab Taurat telah diturunkan kepada nabi yang mana?',
+        options: ['Nabi Daud AS', 'Nabi Musa AS', 'Nabi Isa AS', 'Nabi Muhammad SAW'],
+        correct: 1,
+        explain: 'Kitab Taurat diturunkan oleh Allah SWT kepada Nabi Musa AS.'
+      },
+      {
+        q: 'Siapakah rasul yang menerima Kitab Zabur?',
+        options: ['Nabi Musa AS', 'Nabi Isa AS', 'Nabi Daud AS', 'Nabi Ibrahim AS'],
+        correct: 2,
+        explain: 'Kitab Zabur diturunkan kepada Nabi Daud AS.'
+      },
+      {
+        q: 'Kitab Injil diturunkan kepada Nabi Isa AS. (Betul / Salah)',
+        options: ['Betul', 'Salah'],
+        correct: 0,
+        explain: 'Betul! Kitab Injil diturunkan kepada Nabi Isa AS dalam bahasa Suryani.'
+      },
+      {
+        q: 'Apakah kitab suci terakhir yang diturunkan kepada Nabi Muhammad SAW untuk seluruh umat manusia?',
+        options: ['Kitab Taurat', 'Kitab Zabur', 'Kitab Injil', 'Kitab Al-Quran'],
+        correct: 3,
+        explain: 'Al-Quran ialah kitab suci terakhir yang terpelihara keasliannya hingga hari kiamat.'
+      },
+      {
+        q: 'Manakah antara berikut merupakan bukti keimanan kita terhadap Al-Quran dalam kehidupan harian?',
+        options: [
+          'Membaca Al-Quran dengan beradab dan mengamalkan ajarannya',
+          'Menyimpan Al-Quran tanpa pernah membacanya',
+          'Meletakkan Al-Quran di atas lantai',
+          'Bercakap bising ketika Al-Quran dibacakan'
+        ],
+        correct: 0,
+        explain: 'Membaca Al-Quran dengan beradab dan mengamalkan perintahnya membuktikan keimanan kita.'
+      },
+      {
+        q: 'Semua kitab terdahulu (Taurat, Zabur, Injil) wajib kita imani bahawa ia diturunkan oleh Allah SWT. (Betul / Salah)',
+        options: ['Betul', 'Salah'],
+        correct: 0,
+        explain: 'Betul! Kita wajib beriman bahawa semua kitab tersebut berasal daripada Allah SWT, manakala syariat yang kita amalkan kini ialah Al-Quran.'
+      }
+    ];
+
+    let gameshowState = {
+      currentIdx: 0,
+      selectedOption: null,
+      answered: false,
+      score: 0,
+      streak: 0,
+      finished: false
+    };
+
+    function stopGameshowTimer() {}
+
+    function renderPenilaianPage() {
+      const totalQ = ASSESSMENT_QUESTIONS.length;
+      const pct = state.quizScore !== null ? Math.round((state.quizScore / totalQ) * 100) : 0;
+
+      return `
+      <div class="space-y-7 animate-pop">
+        <section class="card-3d clay-hero-bg p-6 sm:p-8 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <span class="px-3.5 py-1 rounded-full bg-white border-2 border-[#F8C8DC] text-xs font-extrabold">🏆 Penilaian Digital • 5 Minit (Minit 26–30)</span>
+            <h1 class="text-2xl sm:text-4xl font-display font-extrabold mt-1">E-Pentaksiran Gamifikasi</h1>
+            <p class="text-sm font-bold text-[#756368]">Jawab 8 soalan kuiz interaktif di bawah dengan maklum balas segera.</p>
+          </div>
+          <a href="https://wordwall.net/resource/120715221?wwmethod=link" target="_blank" rel="noopener noreferrer" class="btn-3d btn-blue px-4 py-2.5 text-xs sm:text-sm">
+            🌐 Buka Kuiz Wordwall Kelas
+          </a>
+        </section>
+
+        ${gameshowState.finished ? `
+          <section class="card-3d p-6 sm:p-8 text-center space-y-5">
+            <div class="text-5xl">🏆</div>
+            <h2 class="text-2xl sm:text-3xl font-display font-extrabold">Keputusan Kuiz Gamifikasi</h2>
+            <div class="inline-flex flex-wrap items-center justify-center gap-4 p-4 rounded-3xl bg-[#FFF8E7] border-2 border-[#F8C8DC]">
+              <div class="px-4 py-2">
+                <div class="text-xs font-extrabold text-[#756368]">SKOR</div>
+                <div class="text-3xl font-display font-extrabold text-[#C2527B]">${gameshowState.score} / ${totalQ}</div>
+              </div>
+              <div class="px-4 py-2 border-l border-[#F8C8DC]">
+                <div class="text-xs font-extrabold text-[#756368]">PERATUS</div>
+                <div class="text-3xl font-display font-extrabold text-[#3B8C5E]">${pct}%</div>
+              </div>
+              <div class="px-4 py-2 border-l border-[#F8C8DC]">
+                <div class="text-xs font-extrabold text-[#756368]">TAHAP FORMATIF</div>
+                <div class="text-lg font-display font-extrabold">${pct >= 80 ? '🌟 Sangat Baik' : pct >= 50 ? '👍 Baik' : '💪 Perlu Bimbingan'}</div>
+              </div>
+            </div>
+
+            <p class="text-xs font-bold text-[#756368] max-w-xl mx-auto">
+              <em>Nota Pentaksiran:</em> Keputusan ini ialah pentaksiran formatif digital untuk membantu guru mengenal pasti kefahaman murid dan bukan penentu tunggal Tahap Penguasaan PBD rasmi.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-3">
+              <button onclick="restartAssessmentQuiz()" class="btn-3d btn-pink px-6 py-3 text-sm sm:text-base">
+                🔄 Ulang Kuiz
+              </button>
+              <button onclick="navigateTo('permainan')" class="btn-3d btn-mint px-6 py-3 text-sm sm:text-base">
+                🧸 Teroka Mini Game Arcade
+              </button>
+            </div>
+          </section>
+        ` : ''}
+
+        ${state.teacherMode ? `
+          <!-- RINGKASAN PENTAKSIRAN FORMATIF KHAS MOD GURU -->
+          <section class="card-3d p-6 bg-[#C8E6C9]/45 border-2 border-[#66BB6A] space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <h2 class="text-lg sm:text-xl font-display font-extrabold">👩‍🏫 Ringkasan Rekod Prestasi Murid (Mod Guru)</h2>
+              <span class="px-3 py-1 rounded-full bg-white border border-[#66BB6A] text-xs font-extrabold">Pentaksiran Formatif OPD</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs sm:text-sm font-bold">
+              <div class="p-3.5 rounded-2xl bg-white border border-[#81C784]">
+                <div class="opacity-75">Nama Murid:</div>
+                <div class="font-extrabold text-base mt-0.5">${state.studentName || 'Belum diisi'}</div>
+              </div>
+              <div class="p-3.5 rounded-2xl bg-white border border-[#81C784]">
+                <div class="opacity-75">Skor Padanan (Langkah 3):</div>
+                <div class="font-extrabold text-base mt-0.5">${state.matchingScore} / 4 ${state.matchingCompleted ? '✅' : '⏳'}</div>
+              </div>
+              <div class="p-3.5 rounded-2xl bg-white border border-[#81C784]">
+                <div class="opacity-75">Skor Kuiz Formatif:</div>
+                <div class="font-extrabold text-base mt-0.5">${state.quizScore !== null ? `${state.quizScore} / ${totalQ} (${pct}%)` : 'Belum selesai'}</div>
+              </div>
+              <div class="p-3.5 rounded-2xl bg-white border border-[#81C784]">
+                <div class="opacity-75">Status Buku Diteroka:</div>
+                <div class="font-extrabold text-base mt-0.5">${state.openedBooks.length} / 4 Kitab</div>
+              </div>
+            </div>
+          </section>
+        ` : ''}
+
+        ${!gameshowState.finished ? `
+          <section class="card-3d p-6 sm:p-8 space-y-5">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="px-3.5 py-1 rounded-full bg-[#FCE4EC] text-xs font-extrabold">
+                Soalan ${gameshowState.currentIdx + 1} daripada ${totalQ}
+              </span>
+              <span class="px-3.5 py-1 rounded-full bg-[#FFF0B3] text-xs font-extrabold">
+                ⭐ Skor Semasa: ${gameshowState.score} • 🔥 Streak: ${gameshowState.streak}
+              </span>
+            </div>
+
+            <div class="p-5 rounded-3xl bg-[#FFF8E7] border-2 border-[#F8C8DC] flex items-start justify-between gap-3">
+              <h2 class="text-lg sm:text-2xl font-display font-extrabold">
+                ${ASSESSMENT_QUESTIONS[gameshowState.currentIdx].q}
+              </h2>
+              <button onclick="speakAssessmentQuestion(${gameshowState.currentIdx})" class="btn-3d btn-soft px-3 py-2 text-xs shrink-0">
+                🔊 Baca
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              ${ASSESSMENT_QUESTIONS[gameshowState.currentIdx].options.map((opt, oIdx) => {
+                const qObj = ASSESSMENT_QUESTIONS[gameshowState.currentIdx];
+                let btnClass = 'bg-white border-[#F8C8DC] hover:bg-[#FCE4EC]/50';
+                if (gameshowState.answered) {
+                  if (oIdx === qObj.correct) btnClass = 'bg-[#C8E6C9] border-[#66BB6A]';
+                  else if (oIdx === gameshowState.selectedOption) btnClass = 'bg-[#FCE4EC] border-[#E07A9F]';
+                }
+                return `
+                <button
+                  onclick="submitAssessmentAnswer(${oIdx})"
+                  ${gameshowState.answered ? 'disabled' : ''}
+                  class="p-4 rounded-2xl border-3 text-left font-bold text-sm sm:text-base transition-all ${btnClass}"
+                >
+                  <span class="inline-block w-7 h-7 rounded-full bg-[#FFF0B3] text-center leading-7 text-xs font-extrabold mr-2">${String.fromCharCode(65 + oIdx)}</span>
+                  ${opt}
+                </button>
+                `;
+              }).join('')}
+            </div>
+
+            ${gameshowState.answered ? `
+              <div class="p-4 rounded-2xl ${gameshowState.selectedOption === ASSESSMENT_QUESTIONS[gameshowState.currentIdx].correct ? 'bg-[#C8E6C9]/70 border-2 border-[#66BB6A]' : 'bg-[#FFF0B3] border-2 border-[#D4AC0D]'} space-y-2">
+                <div class="font-display font-bold text-base">
+                  ${gameshowState.selectedOption === ASSESSMENT_QUESTIONS[gameshowState.currentIdx].correct ? '🌟 Syabas! Jawapan Betul!' : '💡 Hampir Tepat! Mari Semak:'}
+                </div>
+                <p class="text-sm font-semibold">${ASSESSMENT_QUESTIONS[gameshowState.currentIdx].explain}</p>
+                <div class="pt-1 text-right">
+                  <button onclick="nextAssessmentQuestion()" class="btn-3d btn-pink px-5 py-2.5 text-sm">
+                    ${gameshowState.currentIdx + 1 < totalQ ? 'Soalan Seterusnya ➡️' : 'Lihat Keputusan 🏆'}
+                  </button>
+                </div>
+              </div>
+            ` : ''}
+          </section>
+        ` : ''}
+      </div>
+      `;
+    }
+
+    function submitAssessmentAnswer(optIdx) {
+      if (gameshowState.answered) return;
+      gameshowState.selectedOption = optIdx;
+      gameshowState.answered = true;
+      const isCorrect = optIdx === ASSESSMENT_QUESTIONS[gameshowState.currentIdx].correct;
+      if (isCorrect) {
+        gameshowState.score++;
+        gameshowState.streak++;
+        playCuteChime('success');
+        triggerStarBurst();
+      } else {
+        gameshowState.streak = 0;
+        playCuteChime('wrong');
+      }
+      renderPage('penilaian');
+    }
+
+    function nextAssessmentQuestion() {
+      if (gameshowState.currentIdx + 1 < ASSESSMENT_QUESTIONS.length) {
+        gameshowState.currentIdx++;
+        gameshowState.selectedOption = null;
+        gameshowState.answered = false;
+      } else {
+        gameshowState.finished = true;
+        state.quizScore = gameshowState.score;
+        saveState();
+      }
+      renderPage('penilaian');
+    }
+
+    function restartAssessmentQuiz() {
+      gameshowState = { currentIdx: 0, selectedOption: null, answered: false, score: 0, streak: 0, finished: false };
+      renderPage('penilaian');
+    }
+
+    function speakAssessmentQuestion(idx) {
+      const qObj = ASSESSMENT_QUESTIONS[idx];
+      if (qObj) speakMalay(qObj.q);
+    }
+
+    /*************************************************************************
+     * 9. PERMAINAN – MINI GAME ARCADE (PENGAYAAN)
+     *************************************************************************/
+    let activeArcadeTab = 'mystery';
+    let mysteryIdx = 0;
+    let mysteryFeedback = '';
+
+    const MYSTERY_CLUES = [
+      { clue: 'Saya diturunkan kepada Nabi Musa AS dalam bahasa Ibrani di Bukit Tursina. Siapakah saya?', answer: 'Kitab Taurat', options: ['Kitab Taurat', 'Kitab Zabur', 'Kitab Injil', 'Kitab Al-Quran'] },
+      { clue: 'Saya mengandungi zikir, doa dan puji-pujian yang dibaca dengan suara merdu Nabi Daud AS. Siapakah saya?', answer: 'Kitab Zabur', options: ['Kitab Taurat', 'Kitab Zabur', 'Kitab Injil', 'Kitab Al-Quran'] },
+      { clue: 'Saya diturunkan kepada Nabi Isa AS dalam bahasa Suryani. Siapakah saya?', answer: 'Kitab Injil', options: ['Kitab Taurat', 'Kitab Zabur', 'Kitab Injil', 'Kitab Al-Quran'] },
+      { clue: 'Saya diturunkan dalam bahasa Arab kepada Nabi Muhammad SAW dan kekal terpelihara hingga kiamat. Siapakah saya?', answer: 'Kitab Al-Quran', options: ['Kitab Taurat', 'Kitab Zabur', 'Kitab Injil', 'Kitab Al-Quran'] }
+    ];
+
+    function renderPermainanPage() {
+      const mObj = MYSTERY_CLUES[mysteryIdx];
+      return `
+      <div class="space-y-7 animate-pop">
+        <section class="card-3d clay-hero-bg p-6 sm:p-8 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <span class="px-3.5 py-1 rounded-full bg-white border-2 border-[#F8C8DC] text-xs font-extrabold">🧸 Zon Pengayaan • Mini Game Arcade</span>
+            <h1 class="text-2xl sm:text-4xl font-display font-extrabold mt-1">Arked Permainan 4 Kitab Allah</h1>
+            <p class="text-sm font-bold text-[#756368]">Kumpulkan semua lencana permainan sebagai pengayaan selepas pembelajaran utama.</p>
+          </div>
+          <div class="flex gap-2 text-xs font-extrabold">
+            <span class="px-3 py-1.5 rounded-xl bg-white border border-[#F8C8DC]">🧩 Match: ${state.matchingCompleted ? '🏅' : '⬜'}</span>
+            <span class="px-3 py-1.5 rounded-xl bg-white border border-[#F8C8DC]">🏆 Quiz: ${state.quizScore !== null ? '🏅' : '⬜'}</span>
+            <span class="px-3 py-1.5 rounded-xl bg-white border border-[#F8C8DC]">🔮 Mystery: ${state.arcadeBadges.mystery ? '🏅' : '⬜'}</span>
+          </div>
+        </section>
+
+        <!-- PILIHAN 3 PERMAINAN -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <button onclick="navigateTo('langkah-3')" class="card-3d p-5 text-left hover:scale-[1.02] transition-transform clay-tint-mint">
+            <div class="text-3xl mb-1">🧩</div>
+            <div class="font-display font-bold text-lg">1. Kitab Match</div>
+            <p class="text-xs font-bold text-[#756368]">Padankan 4 kitab Allah dengan nabi penerimanya.</p>
+          </button>
+
+          <button onclick="navigateTo('penilaian')" class="card-3d p-5 text-left hover:scale-[1.02] transition-transform clay-tint-blue">
+            <div class="text-3xl mb-1">🏆</div>
+            <div class="font-display font-bold text-lg">2. Kitab Quiz Challenge</div>
+            <p class="text-xs font-bold text-[#756368]">Cabaran 8 soalan objektif & betul/salah.</p>
+          </button>
+
+          <button onclick="activeArcadeTab = 'mystery'; renderPage('permainan')" class="card-3d p-5 text-left hover:scale-[1.02] transition-transform clay-tint-pink border-3 border-[#E07A9F]">
+            <div class="text-3xl mb-1">🔮</div>
+            <div class="font-display font-bold text-lg">3. Mystery Book</div>
+            <p class="text-xs font-bold text-[#756368]">Teka nama kitab berdasarkan petunjuk rahsia!</p>
+          </button>
+        </div>
+
+        <!-- MYSTERY BOOK INTERACTIVE STAGE -->
+        <section class="card-3d p-6 sm:p-8 space-y-5">
+          <div class="flex items-center justify-between">
+            <h2 class="text-xl font-display font-extrabold">🔮 Permainan Teka Buku Misteri (${mysteryIdx + 1} / ${MYSTERY_CLUES.length})</h2>
+            <button onclick="mysteryIdx = 0; mysteryFeedback = ''; renderPage('permainan')" class="btn-3d btn-soft px-3.5 py-1.5 text-xs">🔄 Mula Semula</button>
+          </div>
+
+          <div class="p-5 rounded-3xl bg-[#FFF8E7] border-2 border-[#F8C8DC] text-center space-y-2">
+            <div class="text-4xl">📘✨</div>
+            <p class="text-base sm:text-xl font-display font-bold">${mObj.clue}</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            ${mObj.options.map(opt => `
+              <button onclick="guessMysteryBook('${opt}')" class="btn-3d btn-soft p-4 text-sm sm:text-base justify-start">
+                📖 ${opt}
+              </button>
+            `).join('')}
+          </div>
+
+          ${mysteryFeedback ? `
+            <div class="p-4 rounded-2xl bg-[#C8E6C9] border-2 border-[#66BB6A] text-center font-bold text-sm">
+              ${mysteryFeedback}
+            </div>
+          ` : ''}
+        </section>
+      </div>
+      `;
+    }
+
+    function guessMysteryBook(choice) {
+      const mObj = MYSTERY_CLUES[mysteryIdx];
+      if (choice === mObj.answer) {
+        playCuteChime('success');
+        triggerStarBurst();
+        if (mysteryIdx + 1 < MYSTERY_CLUES.length) {
+          mysteryFeedback = `🌟 Tepat! Jawapannya ialah ${mObj.answer}. Mari teka petunjuk seterusnya!`;
+          mysteryIdx++;
+        } else {
+          state.arcadeBadges.mystery = true;
+          saveState();
+          mysteryFeedback = '🏅 Tahniah! Kamu berjaya meneka semua Buku Misteri dan memenangi Lencana Mystery Book!';
+        }
+      } else {
+        playCuteChime('wrong');
+        mysteryFeedback = '💡 Cuba lagi! Baca petunjuk nama nabi dan bahasa kitab dengan teliti.';
+      }
+      renderPage('permainan');
+    }
+
+    /*************************************************************************
+     * 10. PENUTUP & SIJIL DIGITAL (5 MINIT)
+     *************************************************************************/
+    function renderPenutupPage() {
+      const studentDisplay = state.studentName.trim() || 'Murid Cemerlang Tahun 3';
+
+      return `
+      <div class="space-y-7 animate-pop">
+        <section class="card-3d clay-hero-bg p-6 sm:p-8 space-y-2">
+          <span class="px-3.5 py-1 rounded-full bg-white border-2 border-[#F8C8DC] text-xs font-extrabold">🎓 Penutup & Refleksi • 5 Minit (Minit 31–35)</span>
+          <h1 class="text-2xl sm:text-4xl font-display font-extrabold">Rumusan & Penghayatan Amalan Harian</h1>
+          <p class="text-sm font-bold text-[#756368]">Mari rumuskan pelajaran hari ini dan cipta sijil digital pencapaian kamu.</p>
+        </section>
+
+        <!-- RUMUSAN 4 KITAB & AMALAN HARIAN -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <section class="card-3d p-6 space-y-3">
+            <h2 class="text-xl font-display font-extrabold">📌 Rumusan Utama Pelajaran</h2>
+            <ul class="space-y-2 text-sm font-bold">
+              <li class="p-3 rounded-2xl clay-tint-cream border">✅ <strong>Maksud:</strong> Yakin bahawa Allah menurunkan kitab-kitab suci kepada para rasul sebagai panduan hidup.</li>
+              <li class="p-3 rounded-2xl clay-tint-pink border">✅ <strong>4 Kitab & Nabi:</strong> Taurat (Nabi Musa AS), Zabur (Nabi Daud AS), Injil (Nabi Isa AS), dan Al-Quran (Nabi Muhammad SAW).</li>
+              <li class="p-3 rounded-2xl clay-tint-mint border">✅ <strong>Kepentingan:</strong> Mendapat petunjuk ke jalan yang benar dan keredaan Allah SWT.</li>
+            </ul>
+          </section>
+
+          <section class="card-3d p-6 space-y-3">
+            <h2 class="text-xl font-display font-extrabold">🌸 Contoh Amalan Beriman kepada Kitab</h2>
+            <ul class="space-y-2 text-sm font-bold">
+              <li class="p-3 rounded-2xl clay-tint-blue border">📖 Membaca Al-Quran setiap hari dengan bertajwid dan beradab.</li>
+              <li class="p-3 rounded-2xl clay-tint-yellow border">🤲 Berwuduk dan meletakkan Al-Quran di tempat yang mulia.</li>
+              <li class="p-3 rounded-2xl clay-tint-mint border">💖 Mengamalkan akhlak mulia seperti taat kepada ibu bapa dan bercakap benar.</li>
+            </ul>
+          </section>
+        </div>
+
+        <!-- REFLEKSI MURID -->
+        <section class="card-3d p-6 sm:p-8 space-y-4">
+          <h2 class="text-xl font-display font-extrabold">💭 Refleksi Kendiri Murid</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div>
+              <label class="block font-extrabold mb-1.5">1. Apakah satu perkara baharu yang kamu pelajari hari ini?</label>
+              <textarea rows="2" oninput="updateStudentReflection('reflectionQ1', this.value)" placeholder="Tulis jawapan ringkas kamu di sini..." class="w-full p-3.5 rounded-2xl border-2 border-[#F8C8DC] bg-[#FFF8E7] font-semibold">${state.reflectionQ1 || ''}</textarea>
+            </div>
+            <div>
+              <label class="block font-extrabold mb-1.5">2. Bagaimanakah kita menunjukkan keimanan kepada kitab Allah?</label>
+              <textarea rows="2" oninput="updateStudentReflection('reflectionQ2', this.value)" placeholder="Contoh: Saya membaca al-Quran selepas solat..." class="w-full p-3.5 rounded-2xl border-2 border-[#81C784] bg-[#FFF8E7] font-semibold">${state.reflectionQ2 || ''}</textarea>
+            </div>
+          </div>
+        </section>
+
+        <!-- PENJANA SIJIL DIGITAL RINGKAS -->
+        <section id="certificate-print-section" class="card-3d p-6 sm:p-8 space-y-5">
+          <div class="no-print flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="text-xl font-display font-extrabold">🏅 Sijil Pencapaian Digital KITABQUEST</h2>
+              <p class="text-xs font-bold text-[#756368]">Taip nama penuh kamu untuk dipaparkan pada sijil penghargaan, kemudian tekan Cetak Sijil atau Simpan PNG.</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <input
+                id="input-student-cert-name"
+                type="text"
+                value="${state.studentName || ''}"
+                oninput="updateStudentReflection('studentName', this.value)"
+                placeholder="Masukkan Nama Murid..."
+                class="px-4 py-2 rounded-2xl border-2 border-[#F8C8DC] bg-[#FFF8E7] text-sm font-bold"
+              />
+              <button onclick="printStudentCertificate()" class="btn-3d btn-pink px-5 py-2 text-sm">
+                🖨️ Cetak Sijil (PDF / Kertas)
+              </button>
+              <button onclick="downloadStudentCertificatePng()" class="btn-3d btn-mint px-4 py-2 text-sm">
+                📥 Muat Turun Sijil (PNG)
+              </button>
+            </div>
+          </div>
+
+          <div id="certificate-card-frame" class="p-6 sm:p-10 rounded-3xl border-4 border-double border-[#E07A9F] clay-banner-bg text-center space-y-3 relative overflow-hidden">
+            <div class="text-4xl">🌸🏆🌸</div>
+            <div class="text-xs font-extrabold uppercase tracking-widest text-[#C2527B]">Sijil Penghargaan Pembelajaran Digital</div>
+            <h3 class="text-2xl sm:text-3xl font-display font-extrabold">TAHNIAH & SYABAS!</h3>
+            <p class="text-sm font-bold">Dianugerahkan kepada:</p>
+            <div id="cert-student-display-name" class="text-2xl sm:text-4xl font-display font-extrabold text-[#3B7CA8] underline decoration-wavy decoration-[#F8C8DC]">
+              ${studentDisplay}
+            </div>
+            <p class="text-sm sm:text-base font-bold max-w-xl mx-auto pt-1">
+              Kerana telah berjaya menamatkan pengembaraan pembelajaran interaktif <strong>KITABQUEST: Beriman kepada Kitab Allah (Pendidikan Islam Tahun 3)</strong> dengan cemerlang.
+            </p>
+            <div class="pt-3 text-xs font-extrabold text-[#756368]">
+              Skor Padanan: ${state.matchingScore}/4 • Skor Kuiz: ${state.quizScore !== null ? state.quizScore : '-'}/${ASSESSMENT_QUESTIONS.length} • Tarikh: ${new Date().toLocaleDateString('ms-MY')}
+            </div>
+          </div>
+        </section>
+      </div>
+      `;
+    }
+
+    function updateStudentReflection(field, val) {
+      state[field] = val;
+      saveState();
+      if (field === 'studentName') {
+        const displayEl = document.getElementById('cert-student-display-name');
+        if (displayEl) {
+          displayEl.textContent = val.trim() || 'Murid Cemerlang Tahun 3';
+        }
+      }
+    }
+
+    function printStudentCertificate() {
+      triggerStarBurst();
+      const studentDisplay = (state.studentName || '').trim() || 'Murid Cemerlang Tahun 3';
+      const todayStr = new Date().toLocaleDateString('ms-MY', { day: 'numeric', month: 'long', year: 'numeric' });
+      const quizText = `${state.quizScore !== null ? state.quizScore : '-'}/${ASSESSMENT_QUESTIONS.length}`;
+
+      document.body.classList.add('printing-certificate-mode');
+
+      // Cuba buka tetingkap cetakan khas supaya terus kemas tanpa gangguan elemen luar iFrame
+      const printWin = window.open('', '_blank', 'width=900,height=680');
+      if (printWin) {
+        printWin.document.write(`<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sijil Pencapaian KITABQUEST - ${studentDisplay}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    @page { size: A4 landscape; margin: 12mm; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 18px;
+      font-family: 'Nunito', sans-serif;
+      background: #FFF8E7;
+      color: #594A4E;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .cert-box {
+      width: 100%;
+      max-width: 960px;
+      background: linear-gradient(135deg, #FCE4EC 0%, #FFF8E7 55%, #C8E6C9 100%);
+      border: 8px double #E07A9F;
+      border-radius: 28px;
+      padding: 44px 48px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(89,74,78,0.12);
+    }
+    .badge {
+      display: inline-block;
+      background: #FFFFFF;
+      border: 2px solid #F8C8DC;
+      padding: 6px 18px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #C2527B;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    h1 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 40px;
+      margin: 14px 0 8px;
+      color: #594A4E;
+    }
+    .name {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 38px;
+      font-weight: 700;
+      color: #3B7CA8;
+      border-bottom: 3px dashed #E07A9F;
+      display: inline-block;
+      padding: 4px 24px 8px;
+      margin: 10px 0 18px;
+    }
+    p.desc {
+      font-size: 18px;
+      line-height: 1.6;
+      max-width: 720px;
+      margin: 0 auto 22px;
+      font-weight: 700;
+    }
+    .stats {
+      display: inline-block;
+      background: rgba(255,255,255,0.9);
+      border: 2px solid #81C784;
+      border-radius: 16px;
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 800;
+    }
+    .footer-sign {
+      margin-top: 28px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 0 24px;
+    }
+    @media print {
+      body { background: #FFFFFF; padding: 0; }
+      .cert-box { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cert-box">
+    <div style="font-size: 46px; margin-bottom: 8px;">🌸🏆🌸</div>
+    <div class="badge">Sijil Penghargaan Pembelajaran Digital</div>
+    <h1>TAHNIAH &amp; SYABAS!</h1>
+    <div style="font-size: 16px; font-weight: 700;">Dengan sukacitanya sijil ini dianugerahkan kepada:</div>
+    <div class="name">${studentDisplay}</div>
+    <p class="desc">
+      Kerana telah berjaya menamatkan pengembaraan pembelajaran interaktif<br/>
+      <strong>KITABQUEST: Beriman kepada Kitab Allah (Pendidikan Islam Tahun 3)</strong><br/>
+      dengan penuh dedikasi dan cemerlang.
+    </p>
+    <div class="stats">
+      ⭐ Skor Padanan: ${state.matchingScore}/4 &nbsp;•&nbsp; 🏆 Skor Kuiz: ${quizText} &nbsp;•&nbsp; 📅 Tarikh: ${todayStr}
+    </div>
+    <div class="footer-sign">
+      <span>Portal OPD Pendidikan Islam Tahun 3</span>
+      <span>Disahkan oleh: Guru Pendidikan Islam</span>
+    </div>
+  </div>
+  <script>
+    window.onload = function() {
+      setTimeout(function() {
+        window.focus();
+        window.print();
+      }, 300);
+    };
+  <\/script>
+</body>
+</html>`);
+        printWin.document.close();
+        setTimeout(() => document.body.classList.remove('printing-certificate-mode'), 600);
+      } else {
+        // Sandaran jika pop-up disekat pelayar: cetak terus halaman semasa dalam mod sijil
+        window.print();
+        setTimeout(() => document.body.classList.remove('printing-certificate-mode'), 600);
+      }
+    }
+
+    function downloadStudentCertificatePng() {
+      const studentDisplay = (state.studentName || '').trim() || 'Murid Cemerlang Tahun 3';
+      const todayStr = new Date().toLocaleDateString('ms-MY', { day: 'numeric', month: 'long', year: 'numeric' });
+      const quizText = `${state.quizScore !== null ? state.quizScore : '-'}/${ASSESSMENT_QUESTIONS.length}`;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = 1200;
+      canvas.height = 840;
+      const ctx = canvas.getContext('2d');
+
+      // Latar belakang pastel lembut
+      const grad = ctx.createLinearGradient(0, 0, 1200, 840);
+      grad.addColorStop(0, '#FCE4EC');
+      grad.addColorStop(0.55, '#FFF8E7');
+      grad.addColorStop(1, '#C8E6C9');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 1200, 840);
+
+      // Bingkai berkembar
+      ctx.strokeStyle = '#E07A9F';
+      ctx.lineWidth = 10;
+      ctx.strokeRect(32, 32, 1136, 776);
+      ctx.lineWidth = 4;
+      ctx.strokeRect(48, 48, 1104, 744);
+
+      ctx.textAlign = 'center';
+      ctx.font = '48px sans-serif';
+      ctx.fillText('🌸 🏆 🌸', 600, 130);
+
+      ctx.fillStyle = '#C2527B';
+      ctx.font = 'bold 22px sans-serif';
+      ctx.fillText('SIJIL PENGHARGAAN PEMBELAJARAN DIGITAL', 600, 185);
+
+      ctx.fillStyle = '#594A4E';
+      ctx.font = 'bold 54px sans-serif';
+      ctx.fillText('TAHNIAH & SYABAS!', 600, 265);
+
+      ctx.font = 'bold 24px sans-serif';
+      ctx.fillText('Dianugerahkan kepada:', 600, 325);
+
+      ctx.fillStyle = '#3B7CA8';
+      ctx.font = 'bold 52px sans-serif';
+      ctx.fillText(studentDisplay, 600, 405);
+
+      ctx.strokeStyle = '#E07A9F';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(280, 425);
+      ctx.lineTo(920, 425);
+      ctx.stroke();
+
+      ctx.fillStyle = '#594A4E';
+      ctx.font = 'bold 24px sans-serif';
+      ctx.fillText('Kerana telah berjaya menamatkan pengembaraan pembelajaran interaktif', 600, 490);
+      ctx.fillText('KITABQUEST: Beriman kepada Kitab Allah (Pendidikan Islam Tahun 3)', 600, 530);
+      ctx.fillText('dengan cemerlang.', 600, 570);
+
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(220, 620, 760, 64);
+      ctx.strokeStyle = '#81C784';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(220, 620, 760, 64);
+
+      ctx.fillStyle = '#594A4E';
+      ctx.font = 'bold 21px sans-serif';
+      ctx.fillText(`⭐ Skor Padanan: ${state.matchingScore}/4   •   🏆 Skor Kuiz: ${quizText}   •   📅 Tarikh: ${todayStr}`, 600, 660);
+
+      const link = document.createElement('a');
+      link.download = `Sijil-KITABQUEST-${studentDisplay.replace(/\s+/g, '-')}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+
+      triggerStarBurst();
+      showToast('📥', 'Sijil pencapaian berjaya dimuat turun sebagai gambar PNG!');
+    }
+
+    function updateStudentReflection(field, val) {
+      state[field] = val;
+      saveState();
+      if (field === 'studentName') {
+        renderPage('penutup');
+      }
+    }
+
+    /*************************************************************************
+     * 11. METADATA – PROFIL PEMBANGUN KAWAII CLAY 3D
+     *************************************************************************/
+    let metaAdminUnlocked = false;
+    let metaPhotoPreviewDraft = null;
+    let metaPhotoLoadError = false;
+
+    function getDefaultProfilePlaceholderSvg() {
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+        <defs>
+          <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#FFF4E6"/>
+            <stop offset="55%" stop-color="#F7DCE6"/>
+            <stop offset="100%" stop-color="#DDF0E4"/>
+          </linearGradient>
+        </defs>
+        <rect width="240" height="240" fill="url(#bg)"/>
+        <circle cx="120" cy="92" r="42" fill="#E9A3BC" opacity="0.85"/>
+        <path d="M52 212 C52 162, 188 162, 188 212" fill="#A8D5BA" opacity="0.9"/>
+        <text x="120" y="226" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="700" fill="#503B60">Foto Profil Pembangun</text>
+      </svg>`;
+      return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+    }
+
+    function renderMetadataPage() {
+      const m = state.metadata || {};
+      const activeUrl = DEVELOPER_PROFILE_CONFIG.photoUrl;
+
+      const hasCustomUrl = Boolean(activeUrl && activeUrl.trim().length > 0 && !metaPhotoLoadError);
+      const displayImgSrc = hasCustomUrl ? activeUrl.trim() : getDefaultProfilePlaceholderSvg();
+
+      const fullName = DEVELOPER_PROFILE_CONFIG.fullName;
+      const program = DEVELOPER_PROFILE_CONFIG.program;
+      const institution = DEVELOPER_PROFILE_CONFIG.institution;
+      const role = DEVELOPER_PROFILE_CONFIG.role;
+
+      const instructionalCards = [
+        { icon: '📖', label: 'Tajuk', value: 'Beriman kepada Kitab Allah' },
+        { icon: '🕌', label: 'Mata Pelajaran', value: 'Pendidikan Islam' },
+        { icon: '🎒', label: 'Tahun', value: 'Tahun 3' },
+        { icon: '🌟', label: 'Bidang', value: 'Akidah' },
+        { icon: '⏱️', label: 'Tempoh PdPC', value: '35 minit' },
+        { icon: '🧭', label: 'Model Reka Bentuk Pengajaran', value: 'ASSURE' },
+        { icon: '🎨', label: 'Prinsip Reka Bentuk Visual', value: 'CASPER' },
+        { icon: '🧠', label: 'Teori Pembelajaran', value: 'Teori Kognitif Pembelajaran Multimedia Mayer' }
+      ];
+
+      return `
+      <div class="space-y-7 animate-pop" style="color: #503B60;">
+        <!-- HEADER BANNER: PROFIL PEMBANGUN BAHAN PEMBELAJARAN DIGITAL -->
+        <section class="meta-clay-card p-6 sm:p-8 relative overflow-hidden">
+          <div class="flex flex-wrap items-center justify-between gap-4 relative z-10">
+            <div class="space-y-1.5">
+              <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border-2 border-[#E9A3BC] text-xs font-extrabold" style="color: #503B60;">
+                <span>💻</span>
+                <span>Objek Pembelajaran Digital (OPD) • Metadata & Identiti</span>
+              </div>
+              <h1 class="text-2xl sm:text-4xl font-display font-extrabold tracking-tight" style="color: #503B60;">
+                Profil Pembangun Bahan Pembelajaran Digital
+              </h1>
+              <p class="text-sm sm:text-base font-semibold" style="color: #503B60;">
+                Portal Pembelajaran Digital Pendidikan Islam Tahun 3 • Tajuk: Beriman kepada Kitab Allah
+              </p>
+            </div>
+
+            <!-- Decorative Clay 3D Icons -->
+            <div class="flex items-center gap-2.5">
+              <span class="meta-icon-clay" title="Buku Digital">📚</span>
+              <span class="meta-icon-clay" title="Komputer Riba">💻</span>
+              <span class="meta-icon-clay" title="Alat Tulis">✏️</span>
+              <span class="meta-icon-clay" title="Bintang Kecemerlangan">⭐</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- KAD UTAMA PROFIL PEMBANGUN (CASPER: CONTRAST, ALIGNMENT, SIMPLICITY, PROXIMITY, EMPHASIS, REPETITION) -->
+        <section class="meta-clay-card p-6 sm:p-9">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <!-- LAJUR KIRI (EMPHASIS): BINGKAI GAMBAR BULAT CLAY 3D + PERANAN -->
+            <div class="lg:col-span-4 flex flex-col items-center text-center space-y-4">
+              <div class="meta-avatar-ring">
+                <div class="w-40 h-40 sm:w-48 sm:h-48 rounded-full overflow-hidden bg-[#FFF4E6] border-4 border-white relative">
+                  <img
+                    id="developer-profile-img"
+                    src="${displayImgSrc}"
+                    alt="Gambar Profil Pembangun Bahan Pembelajaran Digital"
+                    onerror="handleDeveloperPhotoError()"
+                    style="width: 100%; height: 100%; object-fit: cover; object-position: center;"
+                  />
+                </div>
+              </div>
+
+              <div class="space-y-1.5 max-w-xs">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-[#A8D5BA] border-2 border-white text-xs font-extrabold shadow-xs" style="color: #503B60;">
+                  ✨ ${role}
+                </span>
+                <h2 class="text-xl sm:text-2xl font-display font-extrabold leading-snug pt-1" style="color: #503B60;">
+                  ${fullName}
+                </h2>
+                <p class="text-xs font-bold opacity-85" style="color: #503B60;">
+                  ${DEVELOPER_PROFILE_CONFIG.version} • ${DEVELOPER_PROFILE_CONFIG.updatedDate}
+                </p>
+              </div>
+            </div>
+
+            <!-- LAJUR KANAN (PROXIMITY & ALIGNMENT): MAKLUMAT PERIBADI & AKADEMIK TERKUMPUL -->
+            <div class="lg:col-span-8 space-y-5">
+              <!-- Kategori 1: Maklumat Identiti Pembangun -->
+              <div class="meta-clay-pink-box p-5 space-y-3">
+                <div class="flex items-center gap-2.5 border-b-2 border-[#E9A3BC]/50 pb-2">
+                  <span class="text-xl">🪪</span>
+                  <h3 class="font-display font-bold text-lg" style="color: #503B60;">Maklumat Identiti Pembangun</h3>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-sm">
+                  <div class="bg-white/90 p-3.5 rounded-2xl border border-[#E9A3BC]">
+                    <div class="text-xs font-extrabold uppercase tracking-wide opacity-75">Nama Penuh</div>
+                    <div class="font-bold text-base mt-0.5 break-words">${fullName}</div>
+                  </div>
+                  <div class="bg-white/90 p-3.5 rounded-2xl border border-[#E9A3BC]">
+                    <div class="text-xs font-extrabold uppercase tracking-wide opacity-75">Peranan</div>
+                    <div class="font-bold text-base mt-0.5">${role}</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Kategori 2: Maklumat Pengajian & Institusi -->
+              <div class="meta-clay-mint-box p-5 space-y-3">
+                <div class="flex items-center gap-2.5 border-b-2 border-[#A8D5BA]/70 pb-2">
+                  <span class="text-xl">🎓</span>
+                  <h3 class="font-display font-bold text-lg" style="color: #503B60;">Maklumat Pengajian & Institusi</h3>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-sm">
+                  <div class="bg-white/90 p-3.5 rounded-2xl border border-[#A8D5BA]">
+                    <div class="text-xs font-extrabold uppercase tracking-wide opacity-75">Program Pengajian</div>
+                    <div class="font-bold text-sm sm:text-base mt-0.5 break-words">${program}</div>
+                  </div>
+                  <div class="bg-white/90 p-3.5 rounded-2xl border border-[#A8D5BA]">
+                    <div class="text-xs font-extrabold uppercase tracking-wide opacity-75">Institusi</div>
+                    <div class="font-bold text-sm sm:text-base mt-0.5 break-words">${institution}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SEKSYEN: MAKLUMAT BAHAN PEMBELAJARAN DIGITAL (8 KAD KECIL IKON CLAY 3D) -->
+        <section class="meta-clay-card p-6 sm:p-8 space-y-5">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <span class="px-3 py-1 rounded-full bg-[#A8D5BA] text-xs font-extrabold" style="color: #503B60;">📚 Spesifikasi Kurikulum & Pedagogi</span>
+              <h2 class="text-xl sm:text-2xl font-display font-extrabold mt-1.5" style="color: #503B60;">
+                Maklumat Bahan Pembelajaran
+              </h2>
+            </div>
+            <span class="text-xs font-extrabold px-3.5 py-1.5 rounded-2xl bg-white border-2 border-[#E9A3BC]" style="color: #503B60;">
+              DSKP KSSR Semakan • SK 3.2 (SP 3.2.1 – 3.2.5)
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            ${instructionalCards.map(item => `
+              <div class="meta-clay-subcard p-4 flex items-start gap-3.5">
+                <div class="meta-icon-clay">${item.icon}</div>
+                <div class="min-w-0">
+                  <div class="text-xs font-extrabold uppercase tracking-wide opacity-75">${item.label}</div>
+                  <div class="font-display font-bold text-sm sm:text-base mt-0.5 leading-snug break-words">${item.value}</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </section>
+
+        <!-- SEKSYEN: RUJUKAN DAN KREDIT + KOD QR MAKLUM BALAS -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Rujukan dan Kredit -->
+          <div class="lg:col-span-8 meta-clay-card p-6 sm:p-7 space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="meta-icon-clay">📑</div>
+              <div>
+                <h2 class="text-xl font-display font-extrabold" style="color: #503B60;">Rujukan dan Kredit</h2>
+                <p class="text-xs font-bold opacity-80">Sumber kandungan pendidikan, multimedia interaktif dan kuiz yang digunakan dalam portal ini</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs sm:text-sm">
+              <div class="bg-white p-4 rounded-2xl border-2 border-[#E9A3BC] space-y-1">
+                <div class="font-display font-bold text-base">📖 Kandungan Kurikulum & Dalil</div>
+                <p class="font-semibold leading-relaxed">
+                  Dokumen Standard Kurikulum dan Pentaksiran (DSKP) Pendidikan Islam Tahun 3 (SK 3.2), Rancangan Pengajaran Harian (RPH) 35 minit, serta petikan dalil naqli <strong>Surah al-Baqarah (2:285)</strong> dengan terjemahan Bahasa Melayu.
+                </p>
+              </div>
+
+              <div class="bg-white p-4 rounded-2xl border-2 border-[#A8D5BA] space-y-1">
+                <div class="font-display font-bold text-base">🎨 Grafik & Ilustrasi Visual</div>
+                <p class="font-semibold leading-relaxed">
+                  Ilustrasi bilik darjah 3D Kawaii dan elemen grafik vektor dihasilkan secara asli menggunakan SVG dan CSS tanpa menggambarkan rupa para nabi dan rasul.
+                </p>
+              </div>
+
+              <div class="bg-white p-4 rounded-2xl border-2 border-[#A8D5BA] space-y-1">
+                <div class="font-display font-bold text-base">🎬 Video Animasi & Audio Narasi</div>
+                <p class="font-semibold leading-relaxed">
+                  Animasi 3D Set Induksi 2 minit (<em>Jom Kenali Kitab-Kitab Allah!</em>) dibina menggunakan enjin grafik web 3D (Three.js) berserta bacaan audio sintesis pertuturan Bahasa Melayu Standard (<code>ms-MY</code>).
+                </p>
+              </div>
+
+              <div class="bg-white p-4 rounded-2xl border-2 border-[#E9A3BC] space-y-1">
+                <div class="font-display font-bold text-base">🏆 Kuiz Interaktif & Privasi Data</div>
+                <p class="font-semibold leading-relaxed">
+                  Aktiviti padanan, Kuiz Gameshow terbina dalam dan pautan latihan Wordwall kelas digunakan untuk pentaksiran formatif. Tiada data peribadi murid dikumpulkan ke pelayan luaran.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kod QR Maklum Balas -->
+          <div class="lg:col-span-4 meta-clay-card p-6 flex flex-col items-center text-center justify-between space-y-3.5">
+            <div class="space-y-1">
+              <span class="px-3 py-1 rounded-full bg-[#E9A3BC] text-xs font-extrabold" style="color: #503B60;">📱 Maklum Balas Pengguna</span>
+              <h2 class="text-lg font-display font-extrabold pt-1" style="color: #503B60;">Kod QR Maklum Balas</h2>
+              <p class="text-xs font-semibold opacity-85">Imbas kod QR atau klik butang di bawah untuk menilai kebolehgunaan portal pembelajaran ini.</p>
+            </div>
+
+            <div class="w-52 h-52 p-3.5 rounded-3xl border-3 border-[#A8D5BA] bg-white flex items-center justify-center shadow-inner">
+              ${m.qrImageData ? `
+                <img src="${m.qrImageData}" alt="Kod QR Maklum Balas" class="w-full h-full object-contain" />
+              ` : `
+                <div id="feedback-qr-container" class="w-full h-full flex items-center justify-center" aria-label="Kod QR Maklum Balas Pengguna"></div>
+              `}
+            </div>
+
+            <div class="space-y-2 w-full">
+              <p class="text-[11px] font-bold opacity-80">Imbas menggunakan kamera telefon pintar anda</p>
+              <a
+                href="${DEVELOPER_PROFILE_CONFIG.feedbackQrUrl}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-3d btn-mint w-full py-2.5 px-4 text-xs sm:text-sm"
+              >
+                🔗 Buka Borang Maklum Balas
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
+      `;
+    }
+
+    function toggleMetaAdminPanel() {
+      metaAdminUnlocked = !metaAdminUnlocked;
+      metaPhotoPreviewDraft = null;
+      renderPage('metadata');
+    }
+
+    function isValidHttpImageUrl(urlStr) {
+      if (!urlStr) return false;
+      try {
+        const parsed = new URL(urlStr.trim());
+        return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function previewDeveloperPhotoUrl() {
+      const input = document.getElementById('input-dev-photo-url');
+      if (!input) return;
+      const val = input.value.trim();
+
+      if (!val) {
+        metaPhotoPreviewDraft = '';
+        metaPhotoLoadError = false;
+        renderPage('metadata');
+        showToast('🖼️', 'Memaparkan gambar placeholder sementara.');
+        return;
+      }
+
+      if (!isValidHttpImageUrl(val)) {
+        metaPhotoLoadError = true;
+        renderPage('metadata');
+        showToast('⚠️', 'Pautan gambar tidak sah. Sila masukkan URL bermula dengan https://');
+        return;
+      }
+
+      metaPhotoLoadError = false;
+      metaPhotoPreviewDraft = val;
+      renderPage('metadata');
+      showToast('👁️', 'Pratonton gambar profil dikemas kini.');
+    }
+
+    function saveDeveloperPhotoUrl() {
+      const input = document.getElementById('input-dev-photo-url');
+      if (!input) return;
+      const val = input.value.trim();
+
+      if (val && !isValidHttpImageUrl(val)) {
+        metaPhotoLoadError = true;
+        renderPage('metadata');
+        showToast('⚠️', 'Gagal menyimpan: pautan gambar tidak sah.');
+        return;
+      }
+
+      metaPhotoLoadError = false;
+      metaPhotoPreviewDraft = null;
+      state.metadata.photoUrl = val;
+      saveState();
+      renderPage('metadata');
+      showToast('💾', 'Pautan gambar profil berjaya disimpan!');
+    }
+
+    function handleDeveloperPhotoError() {
+      metaPhotoLoadError = true;
+      const imgEl = document.getElementById('developer-profile-img');
+      if (imgEl) {
+        imgEl.onerror = null;
+        imgEl.src = getDefaultProfilePlaceholderSvg();
+      }
+      showToast('⚠️', 'Gambar gagal dimuatkan daripada pautan URL tersebut.');
+    }
+
+    function copyDeployConfigSnippet() {
+      const m = state.metadata || {};
+      const esc = (s) => String(s || '').split('\\').join('\\\\').split("'").join("\\'");
+      const snippet = [
+        'const DEVELOPER_PROFILE_CONFIG = {',
+        "  photoUrl: '" + esc(m.photoUrl || '') + "',",
+        "  fullName: '" + esc(m.fullName && !m.fullName.startsWith('[') ? m.fullName : DEVELOPER_PROFILE_CONFIG.fullName) + "',",
+        "  program: '" + esc(m.program && !m.program.startsWith('[') ? m.program : DEVELOPER_PROFILE_CONFIG.program) + "',",
+        "  institution: '" + esc(m.institution && !m.institution.startsWith('[') ? m.institution : DEVELOPER_PROFILE_CONFIG.institution) + "',",
+        "  role: 'Pereka dan Pembangun Bahan Pembelajaran Digital',",
+        "  version: '" + esc(m.version || DEVELOPER_PROFILE_CONFIG.version) + "',",
+        "  updatedDate: '" + esc(m.updatedDate || DEVELOPER_PROFILE_CONFIG.updatedDate) + "'",
+        '};'
+      ].join('\n');
+
+      const tempArea = document.createElement('textarea');
+      tempArea.value = snippet;
+      document.body.appendChild(tempArea);
+      tempArea.select();
+      try {
+        document.execCommand('copy');
+        showToast('📋', 'Kod konfigurasi kekal disalin! Tampal pada DEVELOPER_PROFILE_CONFIG dalam kod sebelum publish.');
+      } catch (e) {
+        showToast('⚠️', 'Tidak dapat menyalin secara automatik.');
+      }
+      document.body.removeChild(tempArea);
+    }
+
+    function updateMetadataField(key, val) {
+      state.metadata[key] = val;
+      saveState();
+    }
+
+    function uploadQrImage(evt) {
+      const file = evt.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        state.metadata.qrImageData = e.target.result;
+        saveState();
+        renderPage('metadata');
+        showToast('📱', 'Imej Kod QR maklum balas berjaya dimuat naik!');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function clearQrImage() {
+      state.metadata.qrImageData = '';
+      saveState();
+      renderPage('metadata');
+    }
+
+    function renderFeedbackQrCanvas() {
+      const container = document.getElementById('feedback-qr-container');
+      if (!container) return;
+      const qrTargetUrl = DEVELOPER_PROFILE_CONFIG.feedbackQrUrl || 'https://docs.google.com/forms/d/e/1FAIpQLSdyXpw0zOxUh7-kPFyv1PloFAVTbX8SWHTMU3wAYjwVPDnf3w/viewform?usp=header';
+      container.innerHTML = '';
+
+      if (typeof QRCode !== 'undefined') {
+        try {
+          new QRCode(container, {
+            text: qrTargetUrl,
+            width: 176,
+            height: 176,
+            colorDark: '#1A1A1A',
+            colorLight: '#FFFFFF',
+            correctLevel: QRCode.CorrectLevel.M
+          });
+          const qrImg = container.querySelector('img');
+          if (qrImg) {
+            qrImg.style.width = '100%';
+            qrImg.style.height = '100%';
+            qrImg.style.objectFit = 'contain';
+          }
+          return;
+        } catch (e) {
+          console.warn('Gagal menjana QRCode library:', e);
+        }
+      }
+
+      // Sandaran SVG vektor tepat jika skrip luaran gagal dimuatkan
+      container.innerHTML = `
+        <svg viewBox="0 0 250 250" class="w-full h-full" role="img" aria-label="Kod QR Maklum Balas">
+          <rect width="250" height="250" fill="#FFFFFF"/>
+          <rect x="16" y="16" width="66" height="66" rx="8" fill="none" stroke="#1A1A1A" stroke-width="11"/>
+          <rect x="33" y="33" width="32" height="32" rx="4" fill="#1A1A1A"/>
+          <rect x="168" y="16" width="66" height="66" rx="8" fill="none" stroke="#1A1A1A" stroke-width="11"/>
+          <rect x="185" y="33" width="32" height="32" rx="4" fill="#1A1A1A"/>
+          <rect x="16" y="168" width="66" height="66" rx="8" fill="none" stroke="#1A1A1A" stroke-width="11"/>
+          <rect x="33" y="185" width="32" height="32" rx="4" fill="#1A1A1A"/>
+          <rect x="160" y="160" width="36" height="36" rx="5" fill="none" stroke="#1A1A1A" stroke-width="8"/>
+          <circle cx="178" cy="178" r="5" fill="#1A1A1A"/>
+          <path d="M98 20h12v24h14v-12h12v36h-24v14h-14zM144 48h12v36h-12zM20 98h36v12H20zM74 96h24v12h14v24H98v-12H74zM126 108h24v14h-12v24h-12zM170 98h24v12h24v12h-36v12h-12zM20 124h12v36H20zM46 134h12v14H46zM96 154h38v12h-24v14H96zM136 168h14v24h-14zM96 196h24v24h26v12H96zM160 208h72v12h-72z" fill="#1A1A1A"/>
+        </svg>
+      `;
+    }
+
+    /*************************************************************************
+     * INITIALIZE APPLICATION & GLOBAL WINDOW EXPORTS
+     *************************************************************************/
+    function toggleTeacherMode() {
+      setAppUserMode(!state.teacherMode);
+    }
+
+    window.setAppUserMode = setAppUserMode;
+    window.toggleTeacherMode = toggleTeacherMode;
+    window.navigateTo = navigateTo;
+    window.goPrevPage = goPrevPage;
+    window.goNextPage = goNextPage;
+    window.toggleVoicePanel = toggleVoicePanel;
+    window.selectPreferredVoice = selectPreferredVoice;
+    window.updateVoiceRate = updateVoiceRate;
+    window.testStandardMalayVoice = testStandardMalayVoice;
+    window.speakMalay = speakMalay;
+    window.stopSpeech = stopSpeech;
+    window.resetAllProgress = resetAllProgress;
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadStandardMalayVoices();
+      renderNavigation();
+      renderPage(state.currentPage || 'home');
+    });
+  </script>
+</body>
+</html>
